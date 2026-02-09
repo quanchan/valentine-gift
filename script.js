@@ -82,6 +82,85 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Button interactions
+window.addEventListener('DOMContentLoaded', function() {
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    var noClickCount = 0;
+    
+    yesBtn.addEventListener('click', function() {
+        alert('YAY! I knew you\'d say yes! ❤️');
+    });
+    
+    noBtn.addEventListener('click', function() {
+        noClickCount++;
+        
+        // Helper function to generate random position avoiding center (heart area)
+        function getRandomPosition() {
+            var randomX, randomY;
+            var isValid = false;
+            
+            while (!isValid) {
+                // Keep 15% margin from edges (15% to 85%)
+                randomX = Math.random() * 70 + 15;
+                randomY = Math.random() * 60 + 15; // 15% to 75%
+                
+                // Avoid center area where heart is (40-60% X, 30-70% Y)
+                var inCenterX = randomX > 35 && randomX < 65;
+                var inCenterY = randomY > 25 && randomY < 70;
+                
+                // Position is valid if not in the center heart area
+                isValid = !(inCenterX && inCenterY);
+            }
+            
+            return { x: randomX, y: randomY };
+        }
+        
+        if (noClickCount <= 3) {
+            // Move to random position
+            var pos = getRandomPosition();
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+            noBtn.style.right = 'auto';
+        } else if (noClickCount === 4) {
+            // Shrink it
+            noBtn.style.fontSize = '1.5rem';
+            var pos = getRandomPosition();
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+            noBtn.style.right = 'auto';
+        } else if (noClickCount === 5) {
+            noBtn.textContent = 'no (are you sure ?)';
+            var pos = getRandomPosition();
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+        } else if (noClickCount === 6) {
+            noBtn.textContent = 'no (please think again)';
+            var pos = getRandomPosition();
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+        } else if (noClickCount === 7) {
+            noBtn.textContent = 'no (pleaseeee 🥺)';
+            var pos = getRandomPosition();
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+        } else if (noClickCount >= 8) {
+            noBtn.textContent = 'yes hahaha you have no choice';
+            noBtn.style.fontSize = '2.5rem';
+            noBtn.style.cursor = 'default';
+            // Center it
+            noBtn.style.left = '50%';
+            noBtn.style.top = '70%';
+            noBtn.style.transform = 'translate(-50%, -50%)';
+            // Make it act like yes button
+            noBtn.removeEventListener('click', arguments.callee);
+            noBtn.addEventListener('click', function() {
+                alert('YAY! I knew you\'d say yes! ❤️');
+            });
+        }
+    });
+});
+
 var loaded = false;
 var init = function () {
     if (loaded) return;
