@@ -120,22 +120,22 @@ window.addEventListener('DOMContentLoaded', function() {
             noBtn.style.top = pos.y + '%';
             noBtn.style.right = 'auto';
         } else if (noClickCount === 5) {
-            noBtn.textContent = 'no (are you sure ?)';
+            noBtn.textContent = 'No (are you sure ?)';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
         } else if (noClickCount === 6) {
-            noBtn.textContent = 'no (please think again)';
+            noBtn.textContent = 'No (please think again)';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
         } else if (noClickCount === 7) {
-            noBtn.textContent = 'no (pleaseeee 🥺)';
+            noBtn.textContent = 'No (pleaseeee 🥺)';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
         } else if (noClickCount >= 8) {
-            noBtn.textContent = 'yes hahaha you have no choice';
+            noBtn.textContent = 'Yes hahaha you have no choice';
             noBtn.style.fontSize = '2.5rem';
             noBtn.style.cursor = 'default';
             // Center it in the heart
@@ -162,8 +162,6 @@ var init = function () {
     var width = canvas.width = koef * innerWidth;
     var height = canvas.height = koef * innerHeight;
     var rand = Math.random;
-    ctx.fillStyle = "rgba(0,0,0,1)";
-    ctx.fillRect(0, 0, width, height);
 
     var heartPosition = function (rad) {
         //return [Math.sin(rad), Math.cos(rad)];
@@ -176,8 +174,6 @@ var init = function () {
     window.addEventListener('resize', function () {
         width = canvas.width = koef * innerWidth;
         height = canvas.height = koef * innerHeight;
-        ctx.fillStyle = "rgba(0,0,0,1)";
-        ctx.fillRect(0, 0, width, height);
     });
 
     var traceCount = mobile ? 20 : 50;
@@ -226,8 +222,7 @@ var init = function () {
         var n = -Math.cos(time);
         pulse((1 + n) * .5, (1 + n) * .5);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
-        ctx.fillStyle = "rgba(0,0,0,.1)";
-        ctx.fillRect(0, 0, width, height);
+        ctx.clearRect(0, 0, width, height);
         for (i = e.length; i--;) {
             var u = e[i];
             var q = targetPoints[u.q];
@@ -266,8 +261,6 @@ var init = function () {
                 ctx.fillRect(u.trace[k].x, u.trace[k].y, 1, 1);
             }
         }
-        //ctx.fillStyle = "rgba(255,255,255,1)";
-        //for (i = u.trace.length; i--;) ctx.fillRect(targetPoints[i][0], targetPoints[i][1], 2, 2);
 
         window.requestAnimationFrame(loop, canvas);
     };
