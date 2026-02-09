@@ -75,8 +75,8 @@ function createFallingHeart() {
     var heart = document.createElement('div');
     heart.className = 'falling-heart';
     
-    // 50% chance of broken heart
-    var isBroken = Math.random() < 0.5;
+    // 70% chance of broken heart
+    var isBroken = Math.random() < 0.75;
     if (isBroken) {
         heart.classList.add('broken');
         heart.textContent = '💔';

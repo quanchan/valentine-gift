@@ -204,9 +204,9 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 25% 35%, rgba(100, 149, 237, 0.4) 0%, transparent 15%),
+  background: radial-gradient(circle at 25% 35%, rgba(0, 0, 128, 0.4) 0%, transparent 15%),
               radial-gradient(circle at 15% 60%, rgba(255, 192, 232, 0.35) 0%, transparent 12%),
-              radial-gradient(circle at 35% 75%, rgba(64, 224, 208, 0.38) 0%, transparent 18%),
+              radial-gradient(circle at 35% 75%, rgba(64, 224, 208, 0.36) 0%, transparent 18%),
               radial-gradient(circle at 45% 20%, rgba(186, 85, 211, 0.3) 0%, transparent 10%);
   animation: nebulaDrift 60s ease-in-out infinite alternate;
   filter: blur(35px);
@@ -221,7 +221,7 @@ body {
   background: radial-gradient(circle at 70% 40%, rgba(255, 105, 180, 0.35) 0%, transparent 14%),
               radial-gradient(circle at 85% 65%, rgba(138, 43, 226, 0.3) 0%, transparent 11%),
               radial-gradient(circle at 60% 80%, rgba(255, 140, 0, 0.36) 0%, transparent 16%),
-              radial-gradient(circle at 75% 15%, rgba(65, 105, 225, 0.28) 0%, transparent 9%);
+              radial-gradient(circle at 75% 15%, rgba(25, 25, 112, 0.32) 0%, transparent 9%);
   animation: nebulaDrift2 80s ease-in-out infinite alternate-reverse;
   filter: blur(40px);
 }
@@ -233,7 +233,8 @@ body {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 82% 28%, rgba(148, 0, 211, 0.32) 0%, transparent 15%),
-              radial-gradient(circle at 40% 50%, rgba(217, 228, 13, 0.584) 0%, transparent 14%);
+              radial-gradient(circle at 40% 50%, rgba(72, 209, 204, 0.35) 0%, transparent 14%),
+              radial-gradient(circle at 60% 70%, rgba(255, 105, 180, 0.3) 0%, transparent 12%);
   animation: nebulaDrift3 90s ease-in-out infinite alternate;
   filter: blur(38px);
 }
@@ -244,9 +245,10 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 50% 70%, rgba(255, 20, 145, 0.279) 0%, transparent 15%),
-              radial-gradient(circle at 30% 30%, rgba(72, 209, 204, 0.33) 0%, transparent 13%),
-              radial-gradient(circle at 65% 45%, rgba(123, 104, 238, 0.3) 0%, transparent 15%);
+  background: radial-gradient(circle at 50% 70%, rgba(220, 20, 60, 0.35) 0%, transparent 17%),
+              radial-gradient(circle at 30% 30%, rgba(255, 140, 0, 0.36) 0%, transparent 13%),
+              radial-gradient(circle at 65% 45%, rgba(147, 112, 219, 0.32) 0%, transparent 15%),
+              radial-gradient(circle at 80% 80%, rgba(64, 224, 208, 0.28) 0%, transparent 10%);
   animation: nebulaDrift4 70s ease-in-out infinite alternate;
   filter: blur(42px);
 }
@@ -257,9 +259,9 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 20% 80%, rgba(255, 99, 71, 0.36) 0%, transparent 13%),
+  background: radial-gradient(circle at 20% 80%, rgba(220, 20, 60, 0.36) 0%, transparent 18%),
               radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.32) 0%, transparent 14%),
-              radial-gradient(circle at 55% 55%, rgba(24, 6, 218, 0.818) 0%, transparent 12%);
+              radial-gradient(circle at 55% 55%, rgba(0, 0, 128, 0.3) 0%, transparent 12%);
   animation: nebulaDrift5 85s ease-in-out infinite alternate-reverse;
   filter: blur(36px);
 }
@@ -271,8 +273,9 @@ body {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 90% 50%, rgba(186, 85, 211, 0.34) 0%, transparent 16%),
-              radial-gradient(circle at 10% 25%, rgba(255, 215, 0, 0.3) 0%, transparent 11%),
-              radial-gradient(circle at 50% 90%, rgba(30, 144, 255, 0.35) 0%, transparent 19%);
+              radial-gradient(circle at 10% 25%, rgba(255, 140, 0, 0.3) 0%, transparent 11%),
+              radial-gradient(circle at 50% 90%, rgba(64, 224, 208, 0.35) 0%, transparent 19%),
+              radial-gradient(circle at 30% 60%, rgba(255, 192, 203, 0.3) 0%, transparent 13%);
   animation: nebulaDrift6 95s ease-in-out infinite alternate;
   filter: blur(44px);
 }
@@ -612,7 +615,7 @@ body {
 
 @keyframes twinkle {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
 @keyframes moveStars {
