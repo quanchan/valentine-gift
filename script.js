@@ -67,7 +67,17 @@ function createFallingHeart() {
     
     var heart = document.createElement('div');
     heart.className = 'falling-heart';
-    heart.textContent = '❤';
+    
+    // 20% chance of broken heart
+    var isBroken = Math.random() < 0.35;
+    if (isBroken) {
+        heart.classList.add('broken');
+        heart.textContent = '💔';
+        heart.dataset.broken = 'true';
+    } else {
+        heart.textContent = '❤';
+        heart.dataset.broken = 'false';
+    }
     
     // Random size (1.5rem to 3.5rem)
     var size = 1.5 + Math.random() * 2;
@@ -108,7 +118,11 @@ function createFallingHeart() {
         if (checkCollision(heart, basket)) {
             clearInterval(fallInterval);
             heart.remove();
-            incrementScore();
+            if (heart.dataset.broken === 'true') {
+                decrementScore();
+            } else {
+                incrementScore();
+            }
         }
     }, 16);
 }
@@ -138,10 +152,23 @@ function incrementScore() {
     }
 }
 
+function decrementScore() {
+    if (score > 0) {
+        score--;
+        
+        // Unfill the corresponding heart in progress bar
+        var progressHearts = document.querySelectorAll('.progress-heart');
+        if (progressHearts[score]) {
+            progressHearts[score].classList.remove('filled');
+            progressHearts[score].textContent = '♡';
+        }
+    }
+}
+
 function endGame() {
     gameActive = false;
     
-    // Remove all remaining hearts
+    // Remove all remaining hearts (both regular and broken)
     var hearts = document.querySelectorAll('.falling-heart');
     hearts.forEach(function(heart) {
         heart.remove();
@@ -171,7 +198,7 @@ function showValentine() {
         text.split('').forEach(function(char, index) {
             var span = document.createElement('span');
             span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.animationDelay = (index * 0.025) + 's';
+            span.style.animationDelay = (index * 0.035) + 's';
             valentineText.appendChild(span);
         });
     }
@@ -224,13 +251,13 @@ function showValentine() {
     });
     
     // Show buttons after text animation completes
-    // Text has 38 characters, each with 0.05s delay, plus 0.05s fadeIn = 1.95s total
+    // Text has 38 characters, each with 0.035s delay, plus 0.05s fadeIn = 1.38s total
     setTimeout(function() {
         var yesBtn = document.getElementById('yesBtn');
         var noBtn = document.getElementById('noBtn');
         yesBtn.style.animation = 'showButton 0.8s forwards';
         noBtn.style.animation = 'showButton 0.8s forwards';
-    }, 975);
+    }, 1380);
     
     // Button interactions
     var yesBtn = document.getElementById('yesBtn');
