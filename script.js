@@ -125,7 +125,13 @@ function checkCollision(heart, basket) {
 
 function incrementScore() {
     score++;
-    document.getElementById('score').textContent = score;
+    
+    // Fill the corresponding heart in progress bar
+    var progressHearts = document.querySelectorAll('.progress-heart');
+    if (progressHearts[score - 1]) {
+        progressHearts[score - 1].classList.add('filled');
+        progressHearts[score - 1].textContent = '❤';
+    }
     
     if (score >= 10) {
         endGame();
