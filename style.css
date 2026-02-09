@@ -204,10 +204,10 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 25% 35%, rgba(138, 43, 226, 0.4) 0%, transparent 15%),
+  background: radial-gradient(circle at 25% 35%, rgba(100, 149, 237, 0.4) 0%, transparent 15%),
               radial-gradient(circle at 15% 60%, rgba(255, 192, 232, 0.35) 0%, transparent 12%),
-              radial-gradient(circle at 35% 75%, rgba(75, 0, 130, 0.38) 0%, transparent 18%),
-              radial-gradient(circle at 45% 20%, rgba(147, 112, 219, 0.3) 0%, transparent 10%);
+              radial-gradient(circle at 35% 75%, rgba(64, 224, 208, 0.38) 0%, transparent 18%),
+              radial-gradient(circle at 45% 20%, rgba(186, 85, 211, 0.3) 0%, transparent 10%);
   animation: nebulaDrift 60s ease-in-out infinite alternate;
   filter: blur(35px);
 }
@@ -220,8 +220,8 @@ body {
   height: 200%;
   background: radial-gradient(circle at 70% 40%, rgba(255, 105, 180, 0.35) 0%, transparent 14%),
               radial-gradient(circle at 85% 65%, rgba(138, 43, 226, 0.3) 0%, transparent 11%),
-              radial-gradient(circle at 60% 80%, rgba(147, 112, 219, 0.36) 0%, transparent 16%),
-              radial-gradient(circle at 75% 15%, rgba(255, 192, 232, 0.28) 0%, transparent 9%);
+              radial-gradient(circle at 60% 80%, rgba(255, 140, 0, 0.36) 0%, transparent 16%),
+              radial-gradient(circle at 75% 15%, rgba(65, 105, 225, 0.28) 0%, transparent 9%);
   animation: nebulaDrift2 80s ease-in-out infinite alternate-reverse;
   filter: blur(40px);
 }
@@ -232,9 +232,49 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 82% 28%, rgba(180, 100, 230, 0.32) 0%, transparent 16%);
+  background: radial-gradient(circle at 82% 28%, rgba(148, 0, 211, 0.32) 0%, transparent 16%),
+              radial-gradient(circle at 40% 50%, rgba(0, 191, 255, 0.3) 0%, transparent 14%);
   animation: nebulaDrift3 90s ease-in-out infinite alternate;
   filter: blur(38px);
+}
+
+.nebula4 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 70%, rgba(255, 20, 147, 0.35) 0%, transparent 17%),
+              radial-gradient(circle at 30% 30%, rgba(72, 209, 204, 0.33) 0%, transparent 13%),
+              radial-gradient(circle at 65% 45%, rgba(123, 104, 238, 0.3) 0%, transparent 15%);
+  animation: nebulaDrift4 70s ease-in-out infinite alternate;
+  filter: blur(42px);
+}
+
+.nebula5 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 99, 71, 0.36) 0%, transparent 18%),
+              radial-gradient(circle at 80% 20%, rgba(138, 43, 226, 0.32) 0%, transparent 14%),
+              radial-gradient(circle at 55% 55%, rgba(0, 206, 209, 0.28) 0%, transparent 12%);
+  animation: nebulaDrift5 85s ease-in-out infinite alternate-reverse;
+  filter: blur(36px);
+}
+
+.nebula6 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 90% 50%, rgba(186, 85, 211, 0.34) 0%, transparent 16%),
+              radial-gradient(circle at 10% 25%, rgba(255, 215, 0, 0.3) 0%, transparent 11%),
+              radial-gradient(circle at 50% 90%, rgba(30, 144, 255, 0.35) 0%, transparent 19%);
+  animation: nebulaDrift6 95s ease-in-out infinite alternate;
+  filter: blur(44px);
 }
 
 .shooting-star {
@@ -346,13 +386,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(7) {
+.shooting-star:nth-child(10) {
   animation-delay: 0s;
   width: 4px;
   height: 4px;
 }
 
-.shooting-star:nth-child(7)::before {
+.shooting-star:nth-child(10)::before {
   width: 90px;
   height: 2.5px;
   transform: translateY(-50%) rotate(135deg);
@@ -370,13 +410,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(8) {
+.shooting-star:nth-child(11) {
   animation: shootingStar2 10s linear infinite;
   width: 2.5px;
   height: 2.5px;
 }
 
-.shooting-star:nth-child(8)::before {
+.shooting-star:nth-child(11)::before {
   width: 70px;
   height: 1.8px;
   transform: translateY(-50%) rotate(45deg);
@@ -398,13 +438,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(9) {
+.shooting-star:nth-child(12) {
   animation: shootingStar3 9s linear infinite;
   width: 3.5px;
   height: 3.5px;
 }
 
-.shooting-star:nth-child(9)::before {
+.shooting-star:nth-child(12)::before {
   width: 85px;
   height: 2.2px;
   transform: translateY(-50%) rotate(135deg);
@@ -422,13 +462,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(10) {
+.shooting-star:nth-child(13) {
   animation: shootingStar4 11s linear infinite;
   width: 2px;
   height: 2px;
 }
 
-.shooting-star:nth-child(10)::before {
+.shooting-star:nth-child(13)::before {
   width: 65px;
   height: 1.5px;
   transform: translateY(-50%) rotate(45deg);
@@ -450,13 +490,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(11) {
+.shooting-star:nth-child(14) {
   animation: shootingStar5 12s linear infinite;
   width: 3.2px;
   height: 3.2px;
 }
 
-.shooting-star:nth-child(11)::before {
+.shooting-star:nth-child(14)::before {
   width: 75px;
   height: 2px;
   transform: translateY(-50%) rotate(135deg);
@@ -606,6 +646,24 @@ body {
   0% { transform: translate(0, 0) scale(1) rotate(0deg); }
   50% { transform: translate(-7%, -9%) scale(1.05) rotate(-6deg); }
   100% { transform: translate(9%, 7%) scale(0.95) rotate(6deg); }
+}
+
+@keyframes nebulaDrift4 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(11%, 8%) scale(1.06) rotate(7deg); }
+  100% { transform: translate(-8%, -11%) scale(0.94) rotate(-7deg); }
+}
+
+@keyframes nebulaDrift5 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-9%, -7%) rotate(-9deg); }
+  100% { transform: translate(7%, 9%) rotate(9deg); }
+}
+
+@keyframes nebulaDrift6 {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(6%, -10%) scale(1.07) rotate(-8deg); }
+  100% { transform: translate(-10%, 6%) scale(0.93) rotate(8deg); }
 }
 
 canvas {
