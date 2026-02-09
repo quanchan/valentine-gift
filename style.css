@@ -116,13 +116,9 @@ body {
 @keyframes brokenHeartShake {
   0%, 100% {
     transform: scale(1) rotate(-2deg);
-    text-shadow: 0 0 10px rgba(136, 136, 136, 0.6),
-                 0 0 20px rgba(136, 136, 136, 0.4);
   }
   50% {
     transform: scale(1.1) rotate(2deg);
-    text-shadow: 0 0 15px rgba(136, 136, 136, 0.7),
-                 0 0 30px rgba(136, 136, 136, 0.5);
   }
 }
 
