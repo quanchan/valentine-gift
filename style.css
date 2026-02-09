@@ -1,3 +1,45 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.show-love-btn {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 50px;
+  font-size: 3rem;
+  font-family: "Great Vibes", cursive;
+  color: #ffffff;
+  background: transparent;
+  border: 3px solid rgba(255, 192, 232, 0.6);
+  border-radius: 15px;
+  cursor: none;
+  text-shadow: 0 0 20px rgba(255, 192, 232, 0.8),
+               0 0 40px rgba(255, 192, 232, 0.6);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.show-love-btn:hover {
+  color: #ffc0e8;
+  text-shadow: 0 0 30px rgba(255, 192, 232, 1),
+               0 0 50px rgba(255, 192, 232, 0.9),
+               0 0 70px rgba(255, 192, 232, 0.6);
+  border-color: rgba(255, 192, 232, 1);
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+#valentine-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .galaxy-background {
   position: fixed;
   top: 0;

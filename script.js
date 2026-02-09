@@ -19,8 +19,22 @@ window.requestAnimationFrame =
         })();
 window.isDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(((navigator.userAgent || navigator.vendor || window.opera)).toLowerCase()));
 
-// Animate Valentine's text character by character
-window.addEventListener('DOMContentLoaded', function() {
+var mobile = window.isDevice;
+var koef = mobile ? 0.5 : 1;
+var valentineInitialized = false;
+
+// Function to show and initialize Valentine content
+function showValentine() {
+    if (valentineInitialized) return;
+    valentineInitialized = true;
+    
+    // Hide the Show Love button
+    document.getElementById('showLoveBtn').style.display = 'none';
+    
+    // Show the Valentine content
+    document.getElementById('valentine-content').style.display = 'block';
+    
+    // Animate Valentine's text character by character
     var valentineText = document.querySelector('.valentine-text');
     if (valentineText) {
         var text = valentineText.textContent;
@@ -80,10 +94,8 @@ window.addEventListener('DOMContentLoaded', function() {
             }, 1500);
         }
     });
-});
-
-// Button interactions
-window.addEventListener('DOMContentLoaded', function() {
+    
+    // Button interactions
     var yesBtn = document.getElementById('yesBtn');
     var noBtn = document.getElementById('noBtn');
     var noClickCount = 0;
@@ -98,7 +110,7 @@ window.addEventListener('DOMContentLoaded', function() {
         // Fixed corner positions - away from YES button (which is at 20%, 60%)
         var cornerPositions = [
             { x: 75, y: 20 },  // Click 1: Top-right corner
-            { x: 20, y: 20 },  // Click 2: Top-left corner
+            { x: 25, y: 25 },  // Click 2: Top-left corner
             { x: 75, y: 75 },  // Click 3: Bottom-right corner
             { x: 20, y: 75 },  // Click 4: Bottom-left corner (with shrink)
             { x: 80, y: 25 },  // Click 5: Top-right area
@@ -106,36 +118,37 @@ window.addEventListener('DOMContentLoaded', function() {
             { x: 25, y: 25 }   // Click 7: Top-left area
         ];
         
-        if (noClickCount <= 3) {
+        if (noClickCount <= 2) {
             // Move to fixed corner positions
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
             noBtn.style.right = 'auto';
-        } else if (noClickCount === 4) {
+        } else if (noClickCount === 3) {
             // Shrink it
+            noBtn.textContent = 'Really ??';
             noBtn.style.fontSize = '1.5rem';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
             noBtn.style.right = 'auto';
+        } else if (noClickCount === 4) {
+            noBtn.textContent = 'Are you sure ?';
+            var pos = cornerPositions[noClickCount - 1];
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
         } else if (noClickCount === 5) {
-            noBtn.textContent = 'No (are you sure ?)';
+            noBtn.textContent = 'Please think again !';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
         } else if (noClickCount === 6) {
-            noBtn.textContent = 'No (please think again)';
+            noBtn.textContent = 'No pleaseeee 🥺';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
-        } else if (noClickCount === 7) {
-            noBtn.textContent = 'No (pleaseeee 🥺)';
-            var pos = cornerPositions[noClickCount - 1];
-            noBtn.style.left = pos.x + '%';
-            noBtn.style.top = pos.y + '%';
-        } else if (noClickCount >= 8) {
-            noBtn.textContent = 'Yes hahaha you have no choice';
+        } else if (noClickCount >= 7) {
+            noBtn.textContent = 'Hahaha you have no choice but to say Yes ❤️';
             noBtn.style.fontSize = '2.5rem';
             noBtn.style.cursor = 'default';
             // Center it in the heart
@@ -149,17 +162,12 @@ window.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-});
-
-var loaded = false;
-var init = function () {
-    if (loaded) return;
-    loaded = true;
-    var mobile = window.isDevice;
-    var koef = mobile ? 0.5 : 1;
+    
+    // Initialize heart animation
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
     var width = canvas.width = koef * innerWidth;
+    var height = canvas.height = koef * innerHeight;
     var height = canvas.height = koef * innerHeight;
     var rand = Math.random;
 
@@ -265,8 +273,9 @@ var init = function () {
         window.requestAnimationFrame(loop, canvas);
     };
     loop();
-};
+}
 
-var s = document.readyState;
-if (s === 'complete' || s === 'loaded' || s === 'interactive') init();
-else document.addEventListener('DOMContentLoaded', init, false);
+// Set up Show Love button click handler
+window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('showLoveBtn').addEventListener('click', showValentine);
+});
