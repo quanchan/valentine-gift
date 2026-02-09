@@ -59,7 +59,14 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 function startGame() {
-    setInterval(createFallingHeart, 1000);
+    setInterval(function() {
+        // Spawn 4-6 hearts at once
+        var heartCount = 4 + Math.floor(Math.random() * 3);
+        for (var i = 0; i < heartCount; i++) {
+            // Slight delay between each heart in the batch
+            setTimeout(createFallingHeart, i * 100);
+        }
+    }, 1000); // Reduced from 1000ms to 500ms
 }
 
 function createFallingHeart() {
@@ -68,8 +75,8 @@ function createFallingHeart() {
     var heart = document.createElement('div');
     heart.className = 'falling-heart';
     
-    // 20% chance of broken heart
-    var isBroken = Math.random() < 0.35;
+    // 50% chance of broken heart
+    var isBroken = Math.random() < 0.5;
     if (isBroken) {
         heart.classList.add('broken');
         heart.textContent = '💔';
