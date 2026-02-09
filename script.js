@@ -35,8 +35,17 @@ window.addEventListener('DOMContentLoaded', function() {
     basket = document.getElementById('basket');
     gameArea = document.getElementById('game-area');
     
-    // Start spawning hearts
-    startGame();
+    // Handle start button click
+    var startButton = document.getElementById('startButton');
+    var introScreen = document.getElementById('intro-screen');
+    var gameContainer = document.getElementById('game-container');
+    
+    startButton.addEventListener('click', function() {
+        introScreen.style.display = 'none';
+        gameContainer.style.display = 'flex';
+        // Start spawning hearts
+        startGame();
+    });
     
     // Basket controls with mouse
     document.addEventListener('mousemove', function(e) {
