@@ -171,7 +171,7 @@ function showValentine() {
         text.split('').forEach(function(char, index) {
             var span = document.createElement('span');
             span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.animationDelay = (index * 0.1) + 's';
+            span.style.animationDelay = (index * 0.025) + 's';
             valentineText.appendChild(span);
         });
     }
@@ -222,6 +222,15 @@ function showValentine() {
             }, 1500);
         }
     });
+    
+    // Show buttons after text animation completes
+    // Text has 38 characters, each with 0.05s delay, plus 0.05s fadeIn = 1.95s total
+    setTimeout(function() {
+        var yesBtn = document.getElementById('yesBtn');
+        var noBtn = document.getElementById('noBtn');
+        yesBtn.style.animation = 'showButton 0.8s forwards';
+        noBtn.style.animation = 'showButton 0.8s forwards';
+    }, 975);
     
     // Button interactions
     var yesBtn = document.getElementById('yesBtn');

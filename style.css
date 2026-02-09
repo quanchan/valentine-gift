@@ -646,7 +646,7 @@ canvas {
 .valentine-text span {
   display: inline-block;
   opacity: 0;
-  animation: fadeIn 0.1s forwards;
+  animation: fadeIn 0.05s forwards;
 }
 
 .answer-btn {
@@ -654,6 +654,7 @@ canvas {
   font-size: 2.5rem;
   font-family: "Great Vibes", cursive;
   color: #ffffff;
+  opacity: 0;
   z-index: 10;
   cursor: none;
   transition: all 0.3s ease;
@@ -707,6 +708,12 @@ canvas {
   }
   50% {
     transform: translate(-50%, -50%) rotate(135deg) scale(0.85);
+  }
+}
+
+@keyframes showButton {
+  to {
+    opacity: 1;
   }
 }
 
