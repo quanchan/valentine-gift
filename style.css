@@ -6,3 +6,76 @@ canvas {
   height: 100%;
   background-color: rgba(0,0,0,.2);
 }
+
+.valentine-text {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-family: "Great Vibes", cursive;
+  color: #ffffff;
+  text-align: center;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.8),
+               0 0 20px rgba(255, 23, 68, 0.6),
+               0 0 30px rgba(255, 23, 68, 0.4);
+  white-space: nowrap;
+  animation: flicker 6s 7s infinite alternate;
+  pointer-events: none;
+}
+
+.valentine-text span {
+  display: inline-block;
+  opacity: 0;
+  animation: fadeIn 0.1s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  10% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+  30% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.01);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.99);
+  }
+  70% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.01);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  90% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+}

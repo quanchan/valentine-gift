@@ -18,6 +18,23 @@ window.requestAnimationFrame =
             };
         })();
 window.isDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(((navigator.userAgent || navigator.vendor || window.opera)).toLowerCase()));
+
+// Animate Valentine's text character by character
+window.addEventListener('DOMContentLoaded', function() {
+    var valentineText = document.querySelector('.valentine-text');
+    if (valentineText) {
+        var text = valentineText.textContent;
+        valentineText.textContent = '';
+        
+        text.split('').forEach(function(char, index) {
+            var span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = (index * 0.1) + 's';
+            valentineText.appendChild(span);
+        });
+    }
+});
+
 var loaded = false;
 var init = function () {
     if (loaded) return;
