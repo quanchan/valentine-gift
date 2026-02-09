@@ -77,8 +77,8 @@ function createFallingHeart() {
     heart.style.left = Math.random() * 95 + '%';
     heart.style.top = '-50px';
     
-    // Random fall speed (1s to 2.5s)
-    var duration = 1 + Math.random() * 1.5;
+    // Random fall speed (0.5s to 1.5s)
+    var duration = 0.8 + Math.random() * 0.9;
     
     // Append to body instead of gameArea to span full width
     document.body.appendChild(heart);
