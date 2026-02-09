@@ -4,32 +4,80 @@ body {
   overflow: hidden;
 }
 
-.show-love-btn {
+#game-container {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px 50px;
-  font-size: 3rem;
-  font-family: "Great Vibes", cursive;
-  color: #ffffff;
-  background: transparent;
-  border: 3px solid rgba(255, 192, 232, 0.6);
-  border-radius: 15px;
-  cursor: none;
-  text-shadow: 0 0 20px rgba(255, 192, 232, 0.8),
-               0 0 40px rgba(255, 192, 232, 0.6);
-  transition: all 0.3s ease;
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.show-love-btn:hover {
+.game-title {
+  font-size: 3.5rem;
+  font-family: "Great Vibes", cursive;
   color: #ffc0e8;
-  text-shadow: 0 0 30px rgba(255, 192, 232, 1),
-               0 0 50px rgba(255, 192, 232, 0.9),
-               0 0 70px rgba(255, 192, 232, 0.6);
-  border-color: rgba(255, 192, 232, 1);
-  animation: pulse-glow 1.5s ease-in-out infinite;
+  margin-top: 30px;
+  text-shadow: 0 0 20px rgba(255, 192, 232, 0.8),
+               0 0 40px rgba(255, 192, 232, 0.6);
+  pointer-events: none;
+}
+
+.game-score {
+  font-size: 2rem;
+  font-family: "Great Vibes", cursive;
+  color: #ffffff;
+  margin-top: 10px;
+  text-shadow: 0 0 10px rgba(255, 192, 232, 0.6);
+  pointer-events: none;
+}
+
+#game-area {
+  position: relative;
+  width: 60%;
+  max-width: 600px;
+  height: 50%;
+  margin-top: 20px;
+}
+
+#basket {
+  position: fixed;
+  bottom: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 25px;
+  border-left: 4px solid #ffc0e8;
+  border-right: 4px solid #ffc0e8;
+  border-bottom: 4px solid #ffc0e8;
+  border-top: none;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.falling-heart {
+  position: fixed;
+  color: #ffc0e8;
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 0 20px rgba(255, 192, 232, 1),
+               0 0 40px rgba(255, 192, 232, 0.8),
+               0 0 60px rgba(255, 192, 232, 0.6);
+  z-index: 50;
+  animation: heartPulse 1s ease-in-out infinite;
+}
+
+@keyframes heartPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
 }
 
 #valentine-content {

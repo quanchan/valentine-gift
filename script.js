@@ -23,13 +23,135 @@ var mobile = window.isDevice;
 var koef = mobile ? 0.5 : 1;
 var valentineInitialized = false;
 
+// Game variables
+var gameActive = true;
+var score = 0;
+var basket;
+var gameArea;
+var basketX = 50; // percentage
+
+// Initialize game
+window.addEventListener('DOMContentLoaded', function() {
+    basket = document.getElementById('basket');
+    gameArea = document.getElementById('game-area');
+    
+    // Start spawning hearts
+    startGame();
+    
+    // Basket controls with mouse
+    document.addEventListener('mousemove', function(e) {
+        if (!gameActive) return;
+        basketX = Math.max(0, Math.min(100, (e.clientX / window.innerWidth) * 100));
+        basket.style.left = basketX + '%';
+    });
+    
+    // Basket controls with keyboard
+    document.addEventListener('keydown', function(e) {
+        if (!gameActive) return;
+        if (e.key === 'ArrowLeft') {
+            basketX = Math.max(0, basketX - 3);
+            basket.style.left = basketX + '%';
+        } else if (e.key === 'ArrowRight') {
+            basketX = Math.min(100, basketX + 3);
+            basket.style.left = basketX + '%';
+        }
+    });
+});
+
+function startGame() {
+    setInterval(createFallingHeart, 1000);
+}
+
+function createFallingHeart() {
+    if (!gameActive) return;
+    
+    var heart = document.createElement('div');
+    heart.className = 'falling-heart';
+    heart.textContent = '❤';
+    
+    // Random size (1.5rem to 3.5rem)
+    var size = 1.5 + Math.random() * 2;
+    heart.style.fontSize = size + 'rem';
+    
+    // Random horizontal position across full screen width
+    heart.style.left = Math.random() * 95 + '%';
+    heart.style.top = '-50px';
+    
+    // Random fall speed (1s to 2.5s)
+    var duration = 1 + Math.random() * 1.5;
+    
+    // Append to body instead of gameArea to span full width
+    document.body.appendChild(heart);
+    
+    var startTime = Date.now();
+    var fallInterval = setInterval(function() {
+        if (!gameActive) {
+            clearInterval(fallInterval);
+            heart.remove();
+            return;
+        }
+        
+        var elapsed = (Date.now() - startTime) / 1000;
+        var progress = elapsed / duration;
+        
+        if (progress >= 1) {
+            clearInterval(fallInterval);
+            heart.remove();
+            return;
+        }
+        
+        // Fall across full screen height
+        var newTop = progress * (window.innerHeight + 50);
+        heart.style.top = newTop + 'px';
+        
+        // Check collision
+        if (checkCollision(heart, basket)) {
+            clearInterval(fallInterval);
+            heart.remove();
+            incrementScore();
+        }
+    }, 16);
+}
+
+function checkCollision(heart, basket) {
+    var heartRect = heart.getBoundingClientRect();
+    var basketRect = basket.getBoundingClientRect();
+    
+    return !(heartRect.right < basketRect.left || 
+             heartRect.left > basketRect.right || 
+             heartRect.bottom < basketRect.top || 
+             heartRect.top > basketRect.bottom);
+}
+
+function incrementScore() {
+    score++;
+    document.getElementById('score').textContent = score;
+    
+    if (score >= 10) {
+        endGame();
+    }
+}
+
+function endGame() {
+    gameActive = false;
+    
+    // Remove all remaining hearts
+    var hearts = document.querySelectorAll('.falling-heart');
+    hearts.forEach(function(heart) {
+        heart.remove();
+    });
+    
+    // Hide game container
+    setTimeout(function() {
+        document.getElementById('game-container').style.display = 'none';
+        showValentine();
+    }, 500);
+}
+
 // Function to show and initialize Valentine content
 function showValentine() {
     if (valentineInitialized) return;
     valentineInitialized = true;
-    
-    // Hide the Show Love button
-    document.getElementById('showLoveBtn').style.display = 'none';
     
     // Show the Valentine content
     document.getElementById('valentine-content').style.display = 'block';
@@ -274,8 +396,3 @@ function showValentine() {
     };
     loop();
 }
-
-// Set up Show Love button click handler
-window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('showLoveBtn').addEventListener('click', showValentine);
-});
