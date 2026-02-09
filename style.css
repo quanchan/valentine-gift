@@ -5,6 +5,38 @@ canvas {
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,.2);
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #ff0030;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 30, 0.8));
+}
+
+.cursor-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  animation: particleFloat 1.5s ease-out forwards;
+  font-size: 15px;
+  color: #ff0030;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 30, 0.9));
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0);
+  }
 }
 
 .valentine-text {

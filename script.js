@@ -33,6 +33,53 @@ window.addEventListener('DOMContentLoaded', function() {
             valentineText.appendChild(span);
         });
     }
+    
+    // Create custom heart cursor
+    var cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    cursor.textContent = '❤';
+    document.body.appendChild(cursor);
+    
+    // Cursor particle effect
+    var lastTime = Date.now();
+    document.addEventListener('mousemove', function(e) {
+        // Update custom cursor position
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        var currentTime = Date.now();
+        if (currentTime - lastTime < 30) return; // Throttle particle creation
+        lastTime = currentTime;
+        
+        // Create 3-5 particles per mouse move
+        var particleCount = 3 + Math.floor(Math.random() * 3);
+        for (var i = 0; i < particleCount; i++) {
+            var particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            particle.textContent = '❤';
+            
+            // Add slight random offset to starting position
+            var offsetX = (Math.random() - 0.5) * 10;
+            var offsetY = (Math.random() - 0.5) * 10;
+            particle.style.left = (e.clientX + offsetX) + 'px';
+            particle.style.top = (e.clientY + offsetY) + 'px';
+            
+            // Random direction for particle movement (full 360 degrees)
+            var angle = Math.random() * Math.PI * 2;
+            var distance = 40 + Math.random() * 50;
+            var tx = Math.cos(angle) * distance;
+            var ty = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--tx', tx + 'px');
+            particle.style.setProperty('--ty', ty + 'px');
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(function() {
+                particle.remove();
+            }, 1500);
+        }
+    });
 });
 
 var loaded = false;
