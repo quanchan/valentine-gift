@@ -305,9 +305,7 @@ function showValentine() {
             noBtn.style.top = pos.y + '%';
             noBtn.style.right = 'auto';
         } else if (noClickCount === 3) {
-            // Shrink it
             noBtn.textContent = 'Really ??';
-            noBtn.style.fontSize = '1.5rem';
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
             noBtn.style.top = pos.y + '%';
