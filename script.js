@@ -30,6 +30,7 @@ var basket;
 var gameArea;
 var basketX = 50; // percentage
 var cursorEffectEnabled = true; // Control cursor particle effect
+var gameInterval = null; // Store interval ID
 
 // Initialize game
 window.addEventListener('DOMContentLoaded', function() {
@@ -50,6 +51,15 @@ window.addEventListener('DOMContentLoaded', function() {
         // Disable cursor effect during game
         cursorEffectEnabled = false;
         gameActive = true;
+        
+        // Reset game state
+        score = 0;
+        var progressHearts = document.querySelectorAll('.progress-heart');
+        progressHearts.forEach(function(heart) {
+            heart.classList.remove('filled');
+            heart.textContent = '♡';
+        });
+        
         // Start spawning hearts
         startGame();
     });
@@ -75,7 +85,12 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 function startGame() {
-    setInterval(function() {
+    // Clear any existing interval first
+    if (gameInterval) {
+        clearInterval(gameInterval);
+    }
+    
+    gameInterval = setInterval(function() {
         // Spawn 4-6 hearts at once
         var heartCount = 4 + Math.floor(Math.random() * 3);
         for (var i = 0; i < heartCount; i++) {
@@ -191,6 +206,12 @@ function decrementScore() {
 function endGame() {
     gameActive = false;
     
+    // Clear the game interval
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+    
     // Remove all remaining hearts (both regular and broken)
     var hearts = document.querySelectorAll('.falling-heart');
     hearts.forEach(function(heart) {
@@ -267,11 +288,12 @@ function initializeCursorEffect() {
 
 // Function to show and initialize Valentine content
 function showValentine() {
-    if (valentineInitialized) return;
-    valentineInitialized = true;
-    
     // Show the Valentine content
     document.getElementById('valentine-content').style.display = 'block';
+    
+    // Only initialize once
+    if (valentineInitialized) return;
+    valentineInitialized = true;
     
     // Animate Valentine's text character by character
     var valentineText = document.querySelector('.valentine-text');
@@ -515,4 +537,76 @@ document.addEventListener('DOMContentLoaded', function() {
             closeLoveLetterModal();
         }
     });
+    
+    // Keyboard shortcuts for page switching
+    document.addEventListener('keydown', function(e) {
+        // Switch pages with number keys (only if not typing in an input)
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            if (e.key === '1') {
+                switchToPage('intro');
+                e.preventDefault();
+            } else if (e.key === '2') {
+                switchToPage('game');
+                e.preventDefault();
+            } else if (e.key === '3') {
+                switchToPage('valentine');
+                e.preventDefault();
+            }
+        }
+    });
 });
+
+function switchToPage(page) {
+    var introScreen = document.getElementById('intro-screen');
+    var gameContainer = document.getElementById('game-container');
+    var valentineContent = document.getElementById('valentine-content');
+    
+    // Stop any ongoing game
+    gameActive = false;
+    
+    // Clear the game interval
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+    
+    // Remove all falling hearts
+    var hearts = document.querySelectorAll('.falling-heart');
+    hearts.forEach(function(heart) {
+        heart.remove();
+    });
+    
+    // Hide all pages
+    introScreen.style.display = 'none';
+    gameContainer.style.display = 'none';
+    valentineContent.style.display = 'none';
+    
+    // Show the selected page
+    switch(page) {
+        case 'intro':
+            introScreen.style.display = 'flex';
+            cursorEffectEnabled = true;
+            break;
+            
+        case 'game':
+            gameContainer.style.display = 'flex';
+            cursorEffectEnabled = false;
+            gameActive = true;
+            // Reset game state
+            score = 0;
+            var progressHearts = document.querySelectorAll('.progress-heart');
+            progressHearts.forEach(function(heart) {
+                heart.classList.remove('filled');
+                heart.textContent = '♡';
+            });
+            // Start the game
+            startGame();
+            break;
+            
+        case 'valentine':
+            cursorEffectEnabled = true;
+            showValentine();
+            break;
+    }
+}
+
