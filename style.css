@@ -1292,7 +1292,7 @@ canvas {
 }
 
 .letter-greeting {
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #ffc0e8;
   text-shadow: 0 0 10px rgba(255, 192, 232, 0.5);
@@ -1302,7 +1302,7 @@ canvas {
 
 .letter-closing {
   margin-top: 30px !important;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   text-align: right !important;
   color: #ffc0e8;
