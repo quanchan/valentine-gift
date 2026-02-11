@@ -24,16 +24,20 @@ var koef = mobile ? 0.5 : 1;
 var valentineInitialized = false;
 
 // Game variables
-var gameActive = true;
+var gameActive = false; // Start as false (intro screen)
 var score = 0;
 var basket;
 var gameArea;
 var basketX = 50; // percentage
+var cursorEffectEnabled = true; // Control cursor particle effect
 
 // Initialize game
 window.addEventListener('DOMContentLoaded', function() {
     basket = document.getElementById('basket');
     gameArea = document.getElementById('game-area');
+    
+    // Initialize cursor particle effect from the start
+    initializeCursorEffect();
     
     // Handle start button click
     var startButton = document.getElementById('startButton');
@@ -43,6 +47,9 @@ window.addEventListener('DOMContentLoaded', function() {
     startButton.addEventListener('click', function() {
         introScreen.style.display = 'none';
         gameContainer.style.display = 'flex';
+        // Disable cursor effect during game
+        cursorEffectEnabled = false;
+        gameActive = true;
         // Start spawning hearts
         startGame();
     });
@@ -190,6 +197,9 @@ function endGame() {
         heart.remove();
     });
     
+    // Re-enable cursor effect when game ends
+    cursorEffectEnabled = true;
+    
     // Hide game container
     setTimeout(function() {
         document.getElementById('game-container').style.display = 'none';
@@ -197,28 +207,8 @@ function endGame() {
     }, 500);
 }
 
-// Function to show and initialize Valentine content
-function showValentine() {
-    if (valentineInitialized) return;
-    valentineInitialized = true;
-    
-    // Show the Valentine content
-    document.getElementById('valentine-content').style.display = 'block';
-    
-    // Animate Valentine's text character by character
-    var valentineText = document.querySelector('.valentine-text');
-    if (valentineText) {
-        var text = valentineText.textContent;
-        valentineText.textContent = '';
-        
-        text.split('').forEach(function(char, index) {
-            var span = document.createElement('span');
-            span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.animationDelay = (index * 0.035) + 's';
-            valentineText.appendChild(span);
-        });
-    }
-    
+// Initialize cursor particle effect
+function initializeCursorEffect() {
     // Create custom heart cursor
     var cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
@@ -228,6 +218,14 @@ function showValentine() {
     // Cursor particle effect
     var lastTime = Date.now();
     document.addEventListener('mousemove', function(e) {
+        // Only show cursor effect when enabled
+        if (!cursorEffectEnabled) {
+            cursor.style.display = 'none';
+            return;
+        }
+        
+        cursor.style.display = 'block';
+        
         // Update custom cursor position
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
@@ -265,6 +263,29 @@ function showValentine() {
             }, 1500);
         }
     });
+}
+
+// Function to show and initialize Valentine content
+function showValentine() {
+    if (valentineInitialized) return;
+    valentineInitialized = true;
+    
+    // Show the Valentine content
+    document.getElementById('valentine-content').style.display = 'block';
+    
+    // Animate Valentine's text character by character
+    var valentineText = document.querySelector('.valentine-text');
+    if (valentineText) {
+        var text = valentineText.textContent;
+        valentineText.textContent = '';
+        
+        text.split('').forEach(function(char, index) {
+            var span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = (index * 0.035) + 's';
+            valentineText.appendChild(span);
+        });
+    }
     
     // Show buttons after text animation completes
     // Text has 38 characters, each with 0.035s delay, plus 0.05s fadeIn = 1.38s total
