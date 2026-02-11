@@ -302,7 +302,7 @@ function showValentine() {
     var noClickCount = 0;
     
     yesBtn.addEventListener('click', function() {
-        alert('YAY! I knew you\'d say yes! ❤️');
+        showLoveLetterModal();
     });
     
     noBtn.addEventListener('click', function() {
@@ -357,7 +357,7 @@ function showValentine() {
             // Make it act like yes button
             noBtn.removeEventListener('click', arguments.callee);
             noBtn.addEventListener('click', function() {
-                alert('YAY! I knew you\'d say yes! ❤️');
+                showLoveLetterModal();
             });
         }
     });
@@ -473,3 +473,46 @@ function showValentine() {
     };
     loop();
 }
+
+// Love Letter Modal Functions
+function showLoveLetterModal() {
+    var modal = document.getElementById('loveLetterModal');
+    modal.classList.add('show');
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoveLetterModal() {
+    var modal = document.getElementById('loveLetterModal');
+    modal.classList.remove('show');
+    
+    // Restore body scroll
+    document.body.style.overflow = 'hidden'; // Keep hidden since we're in fixed layout
+}
+
+// Modal close button event listener
+document.addEventListener('DOMContentLoaded', function() {
+    var modalClose = document.getElementById('modalClose');
+    var modal = document.getElementById('loveLetterModal');
+    
+    if (modalClose) {
+        modalClose.addEventListener('click', closeLoveLetterModal);
+    }
+    
+    // Close modal when clicking outside the modal content
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeLoveLetterModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLoveLetterModal();
+        }
+    });
+});
