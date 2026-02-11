@@ -320,6 +320,103 @@ body {
   filter: blur(44px);
 }
 
+/* Cosmic Swirls - Chaotic flowing patterns */
+.cosmic-swirl-1 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse 800px 400px at 30% 20%, rgba(255, 0, 150, 0.4) 0%, transparent 40%),
+    radial-gradient(ellipse 600px 300px at 35% 25%, rgba(138, 43, 226, 0.35) 0%, transparent 35%),
+    radial-gradient(ellipse 700px 350px at 28% 18%, rgba(0, 150, 255, 0.3) 0%, transparent 38%);
+  animation: cosmicSwirl1 100s linear infinite;
+  filter: blur(50px);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+.cosmic-swirl-2 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse 900px 450px at 75% 70%, rgba(255, 100, 200, 0.38) 0%, transparent 45%),
+    radial-gradient(ellipse 700px 350px at 80% 75%, rgba(255, 140, 0, 0.35) 0%, transparent 40%),
+    radial-gradient(ellipse 650px 325px at 72% 68%, rgba(186, 85, 211, 0.32) 0%, transparent 38%);
+  animation: cosmicSwirl2 120s linear infinite reverse;
+  filter: blur(55px);
+  mix-blend-mode: screen;
+  opacity: 0.65;
+}
+
+.cosmic-swirl-3 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse 750px 500px at 50% 50%, rgba(0, 200, 255, 0.35) 0%, transparent 42%),
+    radial-gradient(ellipse 800px 400px at 48% 52%, rgba(255, 0, 180, 0.3) 0%, transparent 45%),
+    radial-gradient(ellipse 600px 450px at 52% 48%, rgba(148, 0, 211, 0.33) 0%, transparent 40%);
+  animation: cosmicSwirl3 140s linear infinite;
+  filter: blur(48px);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+.cosmic-swirl-4 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse 650px 800px at 15% 80%, rgba(255, 50, 150, 0.36) 0%, transparent 43%),
+    radial-gradient(ellipse 700px 600px at 18% 85%, rgba(0, 150, 255, 0.32) 0%, transparent 40%),
+    radial-gradient(ellipse 550px 700px at 12% 78%, rgba(255, 100, 0, 0.3) 0%, transparent 38%);
+  animation: cosmicSwirl4 110s linear infinite reverse;
+  filter: blur(52px);
+  mix-blend-mode: screen;
+  opacity: 0.68;
+}
+
+.cosmic-swirl-5 {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse 850px 420px at 85% 35%, rgba(220, 20, 60, 0.37) 0%, transparent 44%),
+    radial-gradient(ellipse 750px 380px at 88% 38%, rgba(138, 43, 226, 0.34) 0%, transparent 42%),
+    radial-gradient(ellipse 800px 400px at 83% 33%, rgba(0, 191, 255, 0.31) 0%, transparent 40%);
+  animation: cosmicSwirl5 95s linear infinite;
+  filter: blur(46px);
+  mix-blend-mode: screen;
+  opacity: 0.72;
+}
+
+.cosmic-flow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(ellipse 1000px 300px at 20% 45%, rgba(255, 0, 255, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse 900px 250px at 80% 55%, rgba(0, 255, 255, 0.22) 0%, transparent 48%);
+  animation: cosmicFlow 160s linear infinite;
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+
 .shooting-star {
   position: absolute;
   width: 3px;
@@ -546,13 +643,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(10) {
+.shooting-star:nth-child(1) {
   animation-delay: 0s;
   width: 4px;
   height: 4px;
 }
 
-.shooting-star:nth-child(10)::before {
+.shooting-star:nth-child(1)::before {
   width: 90px;
   height: 2.5px;
   transform: translateY(-50%) rotate(135deg);
@@ -570,13 +667,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(11) {
+.shooting-star:nth-child(2) {
   animation: shootingStar2 10s linear infinite;
   width: 2.5px;
   height: 2.5px;
 }
 
-.shooting-star:nth-child(11)::before {
+.shooting-star:nth-child(2)::before {
   width: 70px;
   height: 1.8px;
   transform: translateY(-50%) rotate(45deg);
@@ -598,13 +695,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(12) {
+.shooting-star:nth-child(3) {
   animation: shootingStar3 9s linear infinite;
   width: 3.5px;
   height: 3.5px;
 }
 
-.shooting-star:nth-child(12)::before {
+.shooting-star:nth-child(3)::before {
   width: 85px;
   height: 2.2px;
   transform: translateY(-50%) rotate(135deg);
@@ -622,13 +719,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(13) {
+.shooting-star:nth-child(4) {
   animation: shootingStar4 11s linear infinite;
   width: 2px;
   height: 2px;
 }
 
-.shooting-star:nth-child(13)::before {
+.shooting-star:nth-child(4)::before {
   width: 65px;
   height: 1.5px;
   transform: translateY(-50%) rotate(45deg);
@@ -650,13 +747,13 @@ body {
   }
 }
 
-.shooting-star:nth-child(14) {
+.shooting-star:nth-child(5) {
   animation: shootingStar5 12s linear infinite;
   width: 3.2px;
   height: 3.2px;
 }
 
-.shooting-star:nth-child(14)::before {
+.shooting-star:nth-child(5)::before {
   width: 75px;
   height: 2px;
   transform: translateY(-50%) rotate(135deg);
@@ -825,6 +922,57 @@ body {
   50% { transform: translate(6%, -10%) scale(1.07) rotate(-8deg); }
   100% { transform: translate(-10%, 6%) scale(0.93) rotate(8deg); }
 }
+
+/* Cosmic Swirl Animations - Chaotic flowing movements */
+@keyframes cosmicSwirl1 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(15%, -12%) rotate(90deg) scale(1.15); }
+  50% { transform: translate(8%, 18%) rotate(180deg) scale(0.9); }
+  75% { transform: translate(-20%, 10%) rotate(270deg) scale(1.1); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+
+@keyframes cosmicSwirl2 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1) skew(0deg); }
+  20% { transform: translate(-18%, 15%) rotate(-72deg) scale(1.12) skew(5deg); }
+  40% { transform: translate(12%, -20%) rotate(-144deg) scale(0.88) skew(-5deg); }
+  60% { transform: translate(22%, 8%) rotate(-216deg) scale(1.08) skew(3deg); }
+  80% { transform: translate(-10%, -16%) rotate(-288deg) scale(0.95) skew(-3deg); }
+  100% { transform: translate(0, 0) rotate(-360deg) scale(1) skew(0deg); }
+}
+
+@keyframes cosmicSwirl3 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(-25%, -10%) rotate(120deg) scale(1.2); }
+  66% { transform: translate(20%, 25%) rotate(240deg) scale(0.85); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+
+@keyframes cosmicSwirl4 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1) skew(0deg); }
+  30% { transform: translate(16%, -22%) rotate(-108deg) scale(0.9) skew(-4deg); }
+  50% { transform: translate(-14%, 10%) rotate(-180deg) scale(1.18) skew(4deg); }
+  70% { transform: translate(25%, 18%) rotate(-252deg) scale(0.92) skew(-2deg); }
+  100% { transform: translate(0, 0) rotate(-360deg) scale(1) skew(0deg); }
+}
+
+@keyframes cosmicSwirl5 {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  20% { transform: translate(-12%, 20%) rotate(72deg) scale(1.14); }
+  40% { transform: translate(18%, -15%) rotate(144deg) scale(0.88); }
+  60% { transform: translate(-22%, -8%) rotate(216deg) scale(1.1); }
+  80% { transform: translate(10%, 16%) rotate(288deg) scale(0.94); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+
+@keyframes cosmicFlow {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(20%, 15%) rotate(45deg); }
+  50% { transform: translate(-15%, -20%) rotate(90deg); }
+  75% { transform: translate(25%, -10%) rotate(135deg); }
+  100% { transform: translate(0, 0) rotate(180deg); }
+}
+
 
 canvas {
   position: absolute;
