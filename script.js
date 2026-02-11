@@ -342,6 +342,7 @@ function showValentine() {
         ];
         
         if (noClickCount <= 2) {
+            noBtn.textContent = "Don't click me!"
             // Move to fixed corner positions
             var pos = cornerPositions[noClickCount - 1];
             noBtn.style.left = pos.x + '%';
@@ -531,6 +532,39 @@ function closeLoveLetterModal() {
     document.body.style.overflow = 'hidden'; // Keep hidden since we're in fixed layout
 }
 
+// Spawn flying hearts from decorative hearts
+function spawnFlyingHearts(event, emoji) {
+    // Get the click position
+    var rect = event.target.getBoundingClientRect();
+    var startX = rect.left + rect.width / 2;
+    var startY = rect.top + rect.height / 2;
+    
+    // Spawn 8-12 hearts
+    var heartCount = 8 + Math.floor(Math.random() * 5);
+    
+    for (var i = 0; i < heartCount; i++) {
+        var flyingHeart = document.createElement('div');
+        flyingHeart.className = 'flying-emoji-heart';
+        flyingHeart.textContent = emoji;
+        
+        // Random horizontal spread
+        var spreadX = (Math.random() - 0.5) * 200;
+        flyingHeart.style.left = startX + 'px';
+        flyingHeart.style.top = startY + 'px';
+        flyingHeart.style.setProperty('--spread-x', spreadX + 'px');
+        
+        // Slight delay for each heart
+        flyingHeart.style.animationDelay = (i * 0.05) + 's';
+        
+        document.body.appendChild(flyingHeart);
+        
+        // Remove after animation completes
+        setTimeout(function(heart) {
+            heart.remove();
+        }, 2000, flyingHeart);
+    }
+}
+
 // Modal close button event listener
 document.addEventListener('DOMContentLoaded', function() {
     var modalClose = document.getElementById('modalClose');
@@ -554,6 +588,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Escape') {
             closeLoveLetterModal();
         }
+    });
+    
+    // Add click handlers to decorative hearts
+    var decorativeHearts = document.querySelectorAll('.decorative-hearts span');
+    decorativeHearts.forEach(function(heart) {
+        heart.addEventListener('click', function(e) {
+            spawnFlyingHearts(e, heart.textContent);
+        });
     });
     
     // Keyboard shortcuts for page switching

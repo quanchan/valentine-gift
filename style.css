@@ -1289,6 +1289,7 @@ canvas {
   margin: 0 0 20px 0;
   text-align: justify;
   color: rgba(255, 255, 255, 0.95);
+  font-style: italic;
 }
 
 .letter-greeting {
@@ -1329,6 +1330,17 @@ canvas {
 .decorative-hearts span {
   animation: floatHeart 3s ease-in-out infinite;
   display: inline-block;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  user-select: none;
+}
+
+.decorative-hearts span:hover {
+  transform: scale(1.2);
+}
+
+.decorative-hearts span:active {
+  transform: scale(0.9);
 }
 
 .decorative-hearts span:nth-child(1) { animation-delay: 0s; }
@@ -1343,5 +1355,30 @@ canvas {
   }
   50% {
     transform: translateY(-10px) scale(1.1);
+  }
+}
+
+/* Flying hearts from decorative hearts */
+.flying-emoji-heart {
+  position: fixed;
+  font-size: 2rem;
+  pointer-events: none;
+  z-index: 10000;
+  animation: flyUpAndFade 1s linear forwards;
+  --spread-x: 0px;
+}
+
+@keyframes flyUpAndFade {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(var(--spread-x), -160px) scale(1.2) rotate(288deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--spread-x), -200px) scale(1.2) rotate(360deg);
   }
 }
