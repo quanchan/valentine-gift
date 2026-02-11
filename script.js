@@ -604,14 +604,36 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
             if (e.key === '1') {
                 switchToPage('intro');
-                e.preventDefault();
             } else if (e.key === '2') {
                 switchToPage('game');
-                e.preventDefault();
             } else if (e.key === '3') {
                 switchToPage('valentine');
-                e.preventDefault();
+            } else if (e.key === '4') {
+                // Stop game and hide falling hearts
+                gameActive = false;
+                if (gameInterval) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                }
+                var fallingHearts = document.querySelectorAll('.falling-heart');
+                fallingHearts.forEach(function(heart) {
+                    heart.remove();
+                });
+                
+                // Hide all foreground content except valentine (for heart animation)
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('game-container').style.display = 'none';
+                document.getElementById('valentine-content').style.display = 'block';
+                
+                // Initialize valentine content if not already done
+                if (!valentineInitialized) {
+                    showValentine();
+                }
+                
+                showLoveLetterModal();
             }
+            e.preventDefault();
+
         }
     });
 });
@@ -620,6 +642,9 @@ function switchToPage(page) {
     var introScreen = document.getElementById('intro-screen');
     var gameContainer = document.getElementById('game-container');
     var valentineContent = document.getElementById('valentine-content');
+    
+    // Close modal if it's open
+    closeLoveLetterModal();
     
     // Stop any ongoing game
     gameActive = false;
