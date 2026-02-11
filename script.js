@@ -501,6 +501,15 @@ function showLoveLetterModal() {
     var modal = document.getElementById('loveLetterModal');
     modal.classList.add('show');
     
+    // Hide valentine text and buttons
+    var valentineText = document.querySelector('.valentine-text');
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    
+    if (valentineText) valentineText.style.display = 'none';
+    if (yesBtn) yesBtn.style.display = 'none';
+    if (noBtn) noBtn.style.display = 'none';
+    
     // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
 }
@@ -508,6 +517,15 @@ function showLoveLetterModal() {
 function closeLoveLetterModal() {
     var modal = document.getElementById('loveLetterModal');
     modal.classList.remove('show');
+    
+    // Show valentine text and buttons again
+    var valentineText = document.querySelector('.valentine-text');
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    
+    if (valentineText) valentineText.style.display = 'block';
+    if (yesBtn) yesBtn.style.display = 'block';
+    if (noBtn) noBtn.style.display = 'block';
     
     // Restore body scroll
     document.body.style.overflow = 'hidden'; // Keep hidden since we're in fixed layout
