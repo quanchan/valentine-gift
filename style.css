@@ -124,7 +124,7 @@ body {
   position: fixed;
   bottom: 25%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateZ(0);
   width: 80px;
   height: 40px;
   pointer-events: none;
@@ -137,6 +137,7 @@ body {
           drop-shadow(0 0 35px rgba(255, 105, 180, 0.5))
           drop-shadow(0 0 10px rgba(255, 192, 232, 1));
   animation: basketGlow 2s ease-in-out infinite;
+  will-change: transform, left;
 }
 
 .falling-heart {
@@ -145,12 +146,10 @@ body {
   user-select: none;
   pointer-events: none;
   z-index: 50;
-  animation: heartPulse 1s ease-in-out infinite;
 }
 
 .falling-heart.broken {
   color: #888888;
-  animation: brokenHeartShake 1s ease-in-out infinite;
 }
 
 @keyframes brokenHeartShake {
@@ -209,33 +208,31 @@ body {
   background-image: 
     radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 60px 70px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 50px 50px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 90px 10px, #fff, rgba(0,0,0,0));
+    radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0));
   background-repeat: repeat;
   background-size: 200px 200px;
-  animation: twinkle 3s ease-in-out infinite, moveStars 120s linear infinite;
+  animation: moveStars 120s linear infinite;
+  will-change: transform;
 }
 
 .stars2 {
   background-image:
     radial-gradient(1px 1px at 100px 150px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 200px 100px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 50px 200px, #fff, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 150px 50px, #ddd, rgba(0,0,0,0));
   background-repeat: repeat;
   background-size: 250px 250px;
-  animation: twinkle 4s ease-in-out 1s infinite, moveStars2 100s linear infinite;
+  animation: moveStars2 100s linear infinite;
+  will-change: transform;
 }
 
 .stars3 {
   background-image:
     radial-gradient(1px 1px at 75px 125px, #fff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 175px 75px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 125px 175px, #f0f0f0, rgba(0,0,0,0));
+    radial-gradient(2px 2px at 175px 75px, #fff, rgba(0,0,0,0));
   background-repeat: repeat;
   background-size: 300px 300px;
-  animation: twinkle 5s ease-in-out 2s infinite, moveStars3 150s linear infinite;
+  animation: moveStars3 150s linear infinite;
+  will-change: transform;
 }
 
 .nebula {
@@ -245,11 +242,10 @@ body {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 25% 35%, rgba(0, 0, 128, 0.4) 0%, transparent 15%),
-              radial-gradient(circle at 15% 60%, rgba(255, 192, 232, 0.35) 0%, transparent 12%),
-              radial-gradient(circle at 35% 75%, rgba(64, 224, 208, 0.36) 0%, transparent 18%),
-              radial-gradient(circle at 45% 20%, rgba(186, 85, 211, 0.3) 0%, transparent 10%);
+              radial-gradient(circle at 35% 75%, rgba(64, 224, 208, 0.36) 0%, transparent 18%);
   animation: nebulaDrift 60s ease-in-out infinite alternate;
   filter: blur(35px);
+  will-change: transform;
 }
 
 .nebula2 {
@@ -259,11 +255,10 @@ body {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 70% 40%, rgba(255, 105, 180, 0.35) 0%, transparent 14%),
-              radial-gradient(circle at 85% 65%, rgba(138, 43, 226, 0.3) 0%, transparent 11%),
-              radial-gradient(circle at 60% 80%, rgba(255, 140, 0, 0.36) 0%, transparent 16%),
-              radial-gradient(circle at 75% 15%, rgba(25, 25, 112, 0.32) 0%, transparent 9%);
+              radial-gradient(circle at 85% 65%, rgba(138, 43, 226, 0.3) 0%, transparent 11%);
   animation: nebulaDrift2 80s ease-in-out infinite alternate-reverse;
   filter: blur(40px);
+  will-change: transform;
 }
 
 .nebula3 {
@@ -273,10 +268,10 @@ body {
   width: 200%;
   height: 200%;
   background: radial-gradient(circle at 82% 28%, rgba(148, 0, 211, 0.32) 0%, transparent 15%),
-              radial-gradient(circle at 40% 50%, rgba(72, 209, 204, 0.35) 0%, transparent 14%),
-              radial-gradient(circle at 60% 70%, rgba(255, 105, 180, 0.3) 0%, transparent 12%);
+              radial-gradient(circle at 40% 50%, rgba(72, 209, 204, 0.35) 0%, transparent 14%);
   animation: nebulaDrift3 90s ease-in-out infinite alternate;
   filter: blur(38px);
+  will-change: transform;
 }
 
 .nebula4 {
@@ -335,6 +330,7 @@ body {
   filter: blur(50px);
   mix-blend-mode: screen;
   opacity: 0.7;
+  will-change: transform;
 }
 
 .cosmic-swirl-2 {
@@ -351,6 +347,7 @@ body {
   filter: blur(55px);
   mix-blend-mode: screen;
   opacity: 0.65;
+  will-change: transform;
 }
 
 .cosmic-swirl-3 {
@@ -414,6 +411,7 @@ body {
   filter: blur(60px);
   mix-blend-mode: screen;
   opacity: 0.5;
+  will-change: transform;
 }
 
 
@@ -427,24 +425,14 @@ body {
     /* Central glow */
     0 0 12px 3px rgba(255, 255, 255, 1),
     0 0 8px 2px rgba(255, 255, 255, 0.9),
-    /* Up beam */
-    0 -15px 10px 1px rgba(255, 255, 255, 0.7),
+    /* Simplified beams */
     0 -25px 12px 0px rgba(255, 255, 255, 0.5),
-    0 -35px 14px -1px rgba(255, 255, 255, 0.3),
-    /* Down beam */
-    0 15px 10px 1px rgba(255, 255, 255, 0.7),
     0 25px 12px 0px rgba(255, 255, 255, 0.5),
-    0 35px 14px -1px rgba(255, 255, 255, 0.3),
-    /* Right beam */
-    15px 0 10px 1px rgba(255, 255, 255, 0.7),
     25px 0 12px 0px rgba(255, 255, 255, 0.5),
-    35px 0 14px -1px rgba(255, 255, 255, 0.3),
-    /* Left beam */
-    -15px 0 10px 1px rgba(255, 255, 255, 0.7),
-    -25px 0 12px 0px rgba(255, 255, 255, 0.5),
-    -35px 0 14px -1px rgba(255, 255, 255, 0.3);
+    -25px 0 12px 0px rgba(255, 255, 255, 0.5);
   animation: shootingStar 8s linear infinite;
   opacity: 0;
+  will-change: opacity, top, right;
 }
 
 .bright-star {
@@ -457,100 +445,13 @@ body {
   box-shadow: 
     /* Central glow */
     0 0 calc(8px * var(--size)) calc(2px * var(--size)) rgba(255, 255, 255, 1),
-    0 0 calc(5px * var(--size)) calc(1px * var(--size)) rgba(255, 255, 255, 1),
-    /* Up beam */
-    0 calc(-10px * var(--size)) calc(8px * var(--size)) calc(1px * var(--size)) rgba(255, 255, 255, 0.9),
+    /* Simplified beams */
     0 calc(-18px * var(--size)) calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    0 calc(-25px * var(--size)) calc(12px * var(--size)) calc(-1px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Down beam */
-    0 calc(10px * var(--size)) calc(8px * var(--size)) calc(1px * var(--size)) rgba(255, 255, 255, 0.9),
     0 calc(18px * var(--size)) calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    0 calc(25px * var(--size)) calc(12px * var(--size)) calc(-1px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Right beam */
-    calc(10px * var(--size)) 0 calc(8px * var(--size)) calc(1px * var(--size)) rgba(255, 255, 255, 0.9),
     calc(18px * var(--size)) 0 calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    calc(25px * var(--size)) 0 calc(12px * var(--size)) calc(-1px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Left beam */
-    calc(-10px * var(--size)) 0 calc(8px * var(--size)) calc(1px * var(--size)) rgba(255, 255, 255, 0.9),
-    calc(-18px * var(--size)) 0 calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    calc(-25px * var(--size)) 0 calc(12px * var(--size)) calc(-1px * var(--size)) rgba(255, 255, 255, 0.5);
+    calc(-18px * var(--size)) 0 calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7);
   animation: brightShine 3s ease-in-out infinite;
-}
-
-.super-bright-star {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background: white;
-  border-radius: 40%;
-  --size: var(--star-size, 1);
-  box-shadow: 
-    /* Up beam - gradient brightness */
-    0 calc(-3px * var(--size)) calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    0 calc(-8px * var(--size)) calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    0 calc(-13px * var(--size)) calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    0 calc(-20px * var(--size)) calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    0 calc(-27px * var(--size)) calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    0 calc(-33px * var(--size)) calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Down beam - gradient brightness */
-    0 calc(3px * var(--size)) calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    0 calc(8px * var(--size)) calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    0 calc(13px * var(--size)) calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    0 calc(20px * var(--size)) calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    0 calc(27px * var(--size)) calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    0 calc(33px * var(--size)) calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Right beam - gradient brightness */
-    calc(3px * var(--size)) 0 calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    calc(8px * var(--size)) 0 calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    calc(13px * var(--size)) 0 calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    calc(20px * var(--size)) 0 calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    calc(27px * var(--size)) 0 calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    calc(33px * var(--size)) 0 calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Left beam - gradient brightness */
-    calc(-3px * var(--size)) 0 calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    calc(-8px * var(--size)) 0 calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    calc(-13px * var(--size)) 0 calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    calc(-20px * var(--size)) 0 calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    calc(-27px * var(--size)) 0 calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    calc(-33px * var(--size)) 0 calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Diagonal top-left to bottom-right - gradient brightness */
-    calc(-3px * var(--size)) calc(-3px * var(--size)) calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    calc(-6px * var(--size)) calc(-6px * var(--size)) calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    calc(-9px * var(--size)) calc(-9px * var(--size)) calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    calc(-14px * var(--size)) calc(-14px * var(--size)) calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    calc(-19px * var(--size)) calc(-19px * var(--size)) calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    calc(-23px * var(--size)) calc(-23px * var(--size)) calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    calc(3px * var(--size)) calc(3px * var(--size)) calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    calc(6px * var(--size)) calc(6px * var(--size)) calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    calc(9px * var(--size)) calc(9px * var(--size)) calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    calc(14px * var(--size)) calc(14px * var(--size)) calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    calc(19px * var(--size)) calc(19px * var(--size)) calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    calc(23px * var(--size)) calc(23px * var(--size)) calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    /* Diagonal top-right to bottom-left - gradient brightness */
-    calc(3px * var(--size)) calc(-3px * var(--size)) calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    calc(6px * var(--size)) calc(-6px * var(--size)) calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    calc(9px * var(--size)) calc(-9px * var(--size)) calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    calc(14px * var(--size)) calc(-14px * var(--size)) calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    calc(19px * var(--size)) calc(-19px * var(--size)) calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    calc(23px * var(--size)) calc(-23px * var(--size)) calc(20px * var(--size)) rgba(255, 255, 255, 0.5),
-    calc(-3px * var(--size)) calc(3px * var(--size)) calc(10px * var(--size)) rgba(255, 255, 255, 1),
-    calc(-6px * var(--size)) calc(6px * var(--size)) calc(12px * var(--size)) rgba(255, 255, 255, 0.95),
-    calc(-9px * var(--size)) calc(9px * var(--size)) calc(14px * var(--size)) rgba(255, 255, 255, 0.85),
-    calc(-14px * var(--size)) calc(14px * var(--size)) calc(16px * var(--size)) rgba(255, 255, 255, 0.75),
-    calc(-19px * var(--size)) calc(19px * var(--size)) calc(18px * var(--size)) rgba(255, 255, 255, 0.65),
-    calc(-23px * var(--size)) calc(23px * var(--size)) calc(20px * var(--size)) rgba(255, 255, 255, 0.5);
-  animation: superBrightShine 2.5s ease-in-out infinite;
-}
-
-@keyframes superBrightShine {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.2) ;
-  }
+  will-change: opacity, transform;
 }
 
 @keyframes brightShine {
@@ -911,18 +812,6 @@ body {
   100% { transform: translate(-8%, -11%) scale(0.94) rotate(-7deg); }
 }
 
-@keyframes nebulaDrift5 {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(-9%, -7%) rotate(-9deg); }
-  100% { transform: translate(7%, 9%) rotate(9deg); }
-}
-
-@keyframes nebulaDrift6 {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  50% { transform: translate(6%, -10%) scale(1.07) rotate(-8deg); }
-  100% { transform: translate(-10%, 6%) scale(0.93) rotate(8deg); }
-}
-
 /* Cosmic Swirl Animations - Chaotic flowing movements */
 @keyframes cosmicSwirl1 {
   0% { transform: translate(0, 0) rotate(0deg) scale(1); }
@@ -948,23 +837,6 @@ body {
   100% { transform: translate(0, 0) rotate(360deg) scale(1); }
 }
 
-@keyframes cosmicSwirl4 {
-  0% { transform: translate(0, 0) rotate(0deg) scale(1) skew(0deg); }
-  30% { transform: translate(16%, -22%) rotate(-108deg) scale(0.9) skew(-4deg); }
-  50% { transform: translate(-14%, 10%) rotate(-180deg) scale(1.18) skew(4deg); }
-  70% { transform: translate(25%, 18%) rotate(-252deg) scale(0.92) skew(-2deg); }
-  100% { transform: translate(0, 0) rotate(-360deg) scale(1) skew(0deg); }
-}
-
-@keyframes cosmicSwirl5 {
-  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-  20% { transform: translate(-12%, 20%) rotate(72deg) scale(1.14); }
-  40% { transform: translate(18%, -15%) rotate(144deg) scale(0.88); }
-  60% { transform: translate(-22%, -8%) rotate(216deg) scale(1.1); }
-  80% { transform: translate(10%, 16%) rotate(288deg) scale(0.94); }
-  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
-}
-
 @keyframes cosmicFlow {
   0% { transform: translate(0, 0) rotate(0deg); }
   25% { transform: translate(20%, 15%) rotate(45deg); }
@@ -982,6 +854,7 @@ canvas {
   height: 100%;
   background-color: transparent;
   cursor: none;
+  will-change: contents;
 }
 
 .custom-cursor {
@@ -992,20 +865,19 @@ canvas {
   font-size: 20px;
   color: #ffc0e8;
   opacity: 0.7;
-  filter: drop-shadow(0 0 15px rgba(255, 192, 232, 1)) 
-          drop-shadow(0 0 25px rgba(255, 192, 232, 0.8))
-          drop-shadow(0 0 35px rgba(255, 192, 232, 0.6));
+  filter: drop-shadow(0 0 15px rgba(255, 192, 232, 1));
   animation: heartbeat 1.2s ease-in-out infinite;
+  will-change: transform;
 }
 
 .cursor-particle {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  animation: particleFloat 1.5s ease-out forwards;
+  animation: particleFloat 1s ease-out forwards;
   font-size: 15px;
   color: #ffc0e8;
-  filter: drop-shadow(0 0 10px rgba(255, 192, 232, 0.9));
+  will-change: transform, opacity;
 }
 
 @keyframes particleFloat {
@@ -1033,7 +905,6 @@ canvas {
                0 0 20px rgba(255, 192, 232, 0.6),
                0 0 30px rgba(255, 192, 232, 0.4);
   white-space: nowrap;
-  animation: flicker 6s 7s infinite alternate;
   pointer-events: none;
 }
 

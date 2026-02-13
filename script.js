@@ -91,7 +91,7 @@ function startGame() {
     }
     
     gameInterval = setInterval(function() {
-        // Spawn 4-6 hearts at once
+        // Spawn 3-4 hearts at once (reduced to 70%)
         var heartCount = 4 + Math.floor(Math.random() * 3);
         for (var i = 0; i < heartCount; i++) {
             // Slight delay between each heart in the batch
@@ -238,6 +238,9 @@ function initializeCursorEffect() {
     
     // Cursor particle effect
     var lastTime = Date.now();
+    var particlePool = []; // Track active particles
+    var maxParticles = 50; // Limit total particles
+    
     document.addEventListener('mousemove', function(e) {
         // Only show cursor effect when enabled
         if (!cursorEffectEnabled) {
@@ -252,37 +255,44 @@ function initializeCursorEffect() {
         cursor.style.top = e.clientY + 'px';
         
         var currentTime = Date.now();
-        if (currentTime - lastTime < 30) return; // Throttle particle creation
+        if (currentTime - lastTime < 150) return; // Increased throttle to reduce particle creation
         lastTime = currentTime;
         
-        // Create 3-5 particles per mouse move
-        var particleCount = 3 + Math.floor(Math.random() * 3);
-        for (var i = 0; i < particleCount; i++) {
-            var particle = document.createElement('div');
-            particle.className = 'cursor-particle';
-            particle.textContent = '❤';
-            
-            // Add slight random offset to starting position
-            var offsetX = (Math.random() - 0.5) * 10;
-            var offsetY = (Math.random() - 0.5) * 10;
-            particle.style.left = (e.clientX + offsetX) + 'px';
-            particle.style.top = (e.clientY + offsetY) + 'px';
-            
-            // Random direction for particle movement (full 360 degrees)
-            var angle = Math.random() * Math.PI * 2;
-            var distance = 40 + Math.random() * 50;
-            var tx = Math.cos(angle) * distance;
-            var ty = Math.sin(angle) * distance;
-            
-            particle.style.setProperty('--tx', tx + 'px');
-            particle.style.setProperty('--ty', ty + 'px');
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(function() {
+        // Don't create particles if we've hit the limit
+        if (particlePool.length >= maxParticles) return;
+        
+        // Create 1 particle per mouse move (reduced for performance)
+        var particle = document.createElement('div');
+        particle.className = 'cursor-particle';
+        particle.textContent = '❤';
+        
+        // Add slight random offset to starting position
+        var offsetX = (Math.random() - 0.5) * 10;
+        var offsetY = (Math.random() - 0.5) * 10;
+        particle.style.left = (e.clientX + offsetX) + 'px';
+        particle.style.top = (e.clientY + offsetY) + 'px';
+        
+        // Random direction for particle movement (full 360 degrees)
+        var angle = Math.random() * Math.PI * 2;
+        var distance = 40 + Math.random() * 50;
+        var tx = Math.cos(angle) * distance;
+        var ty = Math.sin(angle) * distance;
+        
+        particle.style.setProperty('--tx', tx + 'px');
+        particle.style.setProperty('--ty', ty + 'px');
+        
+        document.body.appendChild(particle);
+        particlePool.push(particle);
+        
+        setTimeout(function() {
+            if (particle && particle.parentNode) {
                 particle.remove();
-            }, 1500);
-        }
+                var index = particlePool.indexOf(particle);
+                if (index > -1) {
+                    particlePool.splice(index, 1);
+                }
+            }
+        }, 1000); // Reduced lifetime
     });
 }
 
@@ -406,7 +416,7 @@ function showValentine() {
         height = canvas.height = koef * innerHeight;
     });
 
-    var traceCount = mobile ? 20 : 50;
+    var traceCount = mobile ? 14 : 35; // Reduced for performance
     var pointsOrigin = [];
     var i;
     var dr = mobile ? 0.3 : 0.1;
@@ -539,8 +549,8 @@ function spawnFlyingHearts(event, emoji) {
     var startX = rect.left + rect.width / 2;
     var startY = rect.top + rect.height / 2;
     
-    // Spawn 8-12 hearts
-    var heartCount = 8 + Math.floor(Math.random() * 5);
+    // Spawn 5-8 hearts (reduced for performance)
+    var heartCount = 5 + Math.floor(Math.random() * 4);
     
     for (var i = 0; i < heartCount; i++) {
         var flyingHeart = document.createElement('div');
