@@ -239,7 +239,7 @@ function initializeCursorEffect() {
     // Cursor particle effect
     var lastTime = Date.now();
     var particlePool = []; // Track active particles
-    var maxParticles = 50; // Limit total particles
+    var maxParticles = 75; // Limit total particles (1.5x increase from 50)
     
     document.addEventListener('mousemove', function(e) {
         // Only show cursor effect when enabled
@@ -255,44 +255,51 @@ function initializeCursorEffect() {
         cursor.style.top = e.clientY + 'px';
         
         var currentTime = Date.now();
-        if (currentTime - lastTime < 150) return; // Increased throttle to reduce particle creation
+        if (currentTime - lastTime < 120) return; // Slightly reduced throttle for more particles
         lastTime = currentTime;
         
         // Don't create particles if we've hit the limit
         if (particlePool.length >= maxParticles) return;
         
-        // Create 1 particle per mouse move (reduced for performance)
-        var particle = document.createElement('div');
-        particle.className = 'cursor-particle';
-        particle.textContent = '❤';
-        
-        // Add slight random offset to starting position
-        var offsetX = (Math.random() - 0.5) * 10;
-        var offsetY = (Math.random() - 0.5) * 10;
-        particle.style.left = (e.clientX + offsetX) + 'px';
-        particle.style.top = (e.clientY + offsetY) + 'px';
-        
-        // Random direction for particle movement (full 360 degrees)
-        var angle = Math.random() * Math.PI * 2;
-        var distance = 40 + Math.random() * 50;
-        var tx = Math.cos(angle) * distance;
-        var ty = Math.sin(angle) * distance;
-        
-        particle.style.setProperty('--tx', tx + 'px');
-        particle.style.setProperty('--ty', ty + 'px');
-        
-        document.body.appendChild(particle);
-        particlePool.push(particle);
-        
-        setTimeout(function() {
-            if (particle && particle.parentNode) {
-                particle.remove();
-                var index = particlePool.indexOf(particle);
-                if (index > -1) {
-                    particlePool.splice(index, 1);
-                }
-            }
-        }, 1000); // Reduced lifetime
+        // Create 1-2 particles per mouse move (1.5x average increase)
+        var particleCount = Math.random() < 0.5 ? 2 : 3;
+        for (var i = 0; i < particleCount; i++) {
+            if (particlePool.length >= maxParticles) break;
+            
+            var particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            particle.textContent = '❤';
+            
+            // Add slight random offset to starting position
+            var offsetX = (Math.random() - 0.5) * 10;
+            var offsetY = (Math.random() - 0.5) * 10;
+            particle.style.left = (e.clientX + offsetX) + 'px';
+            particle.style.top = (e.clientY + offsetY) + 'px';
+            
+            // Random direction for particle movement (full 360 degrees)
+            var angle = Math.random() * Math.PI * 2;
+            var distance = 40 + Math.random() * 50;
+            var tx = Math.cos(angle) * distance;
+            var ty = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--tx', tx + 'px');
+            particle.style.setProperty('--ty', ty + 'px');
+            
+            document.body.appendChild(particle);
+            particlePool.push(particle);
+            
+            (function(p) {
+                setTimeout(function() {
+                    if (p && p.parentNode) {
+                        p.remove();
+                        var index = particlePool.indexOf(p);
+                        if (index > -1) {
+                            particlePool.splice(index, 1);
+                        }
+                    }
+                }, 1000);
+            })(particle);
+        }
     });
 }
 
