@@ -18,19 +18,380 @@ window.requestAnimationFrame =
             };
         })();
 window.isDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(((navigator.userAgent || navigator.vendor || window.opera)).toLowerCase()));
-var loaded = false;
-var init = function () {
-    if (loaded) return;
-    loaded = true;
-    var mobile = window.isDevice;
-    var koef = mobile ? 0.5 : 1;
+
+var mobile = window.isDevice;
+var koef = mobile ? 0.5 : 1;
+var valentineInitialized = false;
+
+// Game variables
+var gameActive = false; // Start as false (intro screen)
+var score = 0;
+var basket;
+var gameArea;
+var basketX = 50; // percentage
+var cursorEffectEnabled = true; // Control cursor particle effect
+var gameInterval = null; // Store interval ID
+
+// Initialize game
+window.addEventListener('DOMContentLoaded', function() {
+    basket = document.getElementById('basket');
+    gameArea = document.getElementById('game-area');
+    
+    // Initialize cursor particle effect from the start
+    initializeCursorEffect();
+    
+    // Handle start button click
+    var startButton = document.getElementById('startButton');
+    var introScreen = document.getElementById('intro-screen');
+    var gameContainer = document.getElementById('game-container');
+    
+    startButton.addEventListener('click', function() {
+        introScreen.style.display = 'none';
+        gameContainer.style.display = 'flex';
+        // Disable cursor effect during game
+        cursorEffectEnabled = false;
+        gameActive = true;
+        
+        // Reset game state
+        score = 0;
+        var progressHearts = document.querySelectorAll('.progress-heart');
+        progressHearts.forEach(function(heart) {
+            heart.classList.remove('filled');
+            heart.textContent = '♡';
+        });
+        
+        // Start spawning hearts
+        startGame();
+    });
+    
+    // Basket controls with mouse
+    document.addEventListener('mousemove', function(e) {
+        if (!gameActive) return;
+        basketX = Math.max(0, Math.min(100, (e.clientX / window.innerWidth) * 100));
+        basket.style.left = basketX + '%';
+    });
+    
+    // Basket controls with keyboard
+    document.addEventListener('keydown', function(e) {
+        if (!gameActive) return;
+        if (e.key === 'ArrowLeft') {
+            basketX = Math.max(0, basketX - 3);
+            basket.style.left = basketX + '%';
+        } else if (e.key === 'ArrowRight') {
+            basketX = Math.min(100, basketX + 3);
+            basket.style.left = basketX + '%';
+        }
+    });
+});
+
+function startGame() {
+    // Clear any existing interval first
+    if (gameInterval) {
+        clearInterval(gameInterval);
+    }
+    
+    gameInterval = setInterval(function() {
+        // Spawn 4-6 hearts at once
+        var heartCount = 4 + Math.floor(Math.random() * 3);
+        for (var i = 0; i < heartCount; i++) {
+            // Slight delay between each heart in the batch
+            setTimeout(createFallingHeart, i * 100);
+        }
+    }, 1000); // Reduced from 1000ms to 500ms
+}
+
+function createFallingHeart() {
+    if (!gameActive) return;
+    
+    var heart = document.createElement('div');
+    heart.className = 'falling-heart';
+    
+    // 70% chance of broken heart
+    var isBroken = Math.random() < 0.75;
+    if (isBroken) {
+        heart.classList.add('broken');
+        heart.textContent = '💔';
+        heart.dataset.broken = 'true';
+    } else {
+        heart.textContent = '❤';
+        heart.dataset.broken = 'false';
+    }
+    
+    // Random size (1.5rem to 3.5rem)
+    var size = 1.5 + Math.random() * 2;
+    heart.style.fontSize = size + 'rem';
+    
+    // Random horizontal position across full screen width
+    heart.style.left = Math.random() * 95 + '%';
+    heart.style.top = '-50px';
+    
+    // Random fall speed (0.5s to 1.5s)
+    var duration = 0.8 + Math.random() * 0.9;
+    
+    // Append to body instead of gameArea to span full width
+    document.body.appendChild(heart);
+    
+    var startTime = Date.now();
+    var fallInterval = setInterval(function() {
+        if (!gameActive) {
+            clearInterval(fallInterval);
+            heart.remove();
+            return;
+        }
+        
+        var elapsed = (Date.now() - startTime) / 1000;
+        var progress = elapsed / duration;
+        
+        if (progress >= 1) {
+            clearInterval(fallInterval);
+            heart.remove();
+            return;
+        }
+        
+        // Fall across full screen height
+        var newTop = progress * (window.innerHeight + 50);
+        heart.style.top = newTop + 'px';
+        
+        // Check collision
+        if (checkCollision(heart, basket)) {
+            clearInterval(fallInterval);
+            heart.remove();
+            if (heart.dataset.broken === 'true') {
+                decrementScore();
+            } else {
+                incrementScore();
+            }
+        }
+    }, 16);
+}
+
+function checkCollision(heart, basket) {
+    var heartRect = heart.getBoundingClientRect();
+    var basketRect = basket.getBoundingClientRect();
+    
+    return !(heartRect.right < basketRect.left || 
+             heartRect.left > basketRect.right || 
+             heartRect.bottom < basketRect.top || 
+             heartRect.top > basketRect.bottom);
+}
+
+function incrementScore() {
+    score++;
+    
+    // Fill the corresponding heart in progress bar
+    var progressHearts = document.querySelectorAll('.progress-heart');
+    if (progressHearts[score - 1]) {
+        progressHearts[score - 1].classList.add('filled');
+        progressHearts[score - 1].textContent = '❤';
+    }
+    
+    if (score >= 10) {
+        endGame();
+    }
+}
+
+function decrementScore() {
+    if (score > 0) {
+        score--;
+        
+        // Unfill the corresponding heart in progress bar
+        var progressHearts = document.querySelectorAll('.progress-heart');
+        if (progressHearts[score]) {
+            progressHearts[score].classList.remove('filled');
+            progressHearts[score].textContent = '♡';
+        }
+    }
+}
+
+function endGame() {
+    gameActive = false;
+    
+    // Clear the game interval
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+    
+    // Remove all remaining hearts (both regular and broken)
+    var hearts = document.querySelectorAll('.falling-heart');
+    hearts.forEach(function(heart) {
+        heart.remove();
+    });
+    
+    // Re-enable cursor effect when game ends
+    cursorEffectEnabled = true;
+    
+    // Hide game container
+    setTimeout(function() {
+        document.getElementById('game-container').style.display = 'none';
+        showValentine();
+    }, 500);
+}
+
+// Initialize cursor particle effect
+function initializeCursorEffect() {
+    // Create custom heart cursor
+    var cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    cursor.textContent = '❤';
+    document.body.appendChild(cursor);
+    
+    // Cursor particle effect
+    var lastTime = Date.now();
+    document.addEventListener('mousemove', function(e) {
+        // Only show cursor effect when enabled
+        if (!cursorEffectEnabled) {
+            cursor.style.display = 'none';
+            return;
+        }
+        
+        cursor.style.display = 'block';
+        
+        // Update custom cursor position
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        var currentTime = Date.now();
+        if (currentTime - lastTime < 30) return; // Throttle particle creation
+        lastTime = currentTime;
+        
+        // Create 3-5 particles per mouse move
+        var particleCount = 3 + Math.floor(Math.random() * 3);
+        for (var i = 0; i < particleCount; i++) {
+            var particle = document.createElement('div');
+            particle.className = 'cursor-particle';
+            particle.textContent = '❤';
+            
+            // Add slight random offset to starting position
+            var offsetX = (Math.random() - 0.5) * 10;
+            var offsetY = (Math.random() - 0.5) * 10;
+            particle.style.left = (e.clientX + offsetX) + 'px';
+            particle.style.top = (e.clientY + offsetY) + 'px';
+            
+            // Random direction for particle movement (full 360 degrees)
+            var angle = Math.random() * Math.PI * 2;
+            var distance = 40 + Math.random() * 50;
+            var tx = Math.cos(angle) * distance;
+            var ty = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--tx', tx + 'px');
+            particle.style.setProperty('--ty', ty + 'px');
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(function() {
+                particle.remove();
+            }, 1500);
+        }
+    });
+}
+
+// Function to show and initialize Valentine content
+function showValentine() {
+    // Show the Valentine content
+    document.getElementById('valentine-content').style.display = 'block';
+    
+    // Only initialize once
+    if (valentineInitialized) return;
+    valentineInitialized = true;
+    
+    // Animate Valentine's text character by character
+    var valentineText = document.querySelector('.valentine-text');
+    if (valentineText) {
+        var text = valentineText.textContent;
+        valentineText.textContent = '';
+        
+        text.split('').forEach(function(char, index) {
+            var span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = (index * 0.035) + 's';
+            valentineText.appendChild(span);
+        });
+    }
+    
+    // Show buttons after text animation completes
+    // Text has 38 characters, each with 0.035s delay, plus 0.05s fadeIn = 1.38s total
+    setTimeout(function() {
+        var yesBtn = document.getElementById('yesBtn');
+        var noBtn = document.getElementById('noBtn');
+        yesBtn.style.animation = 'showButton 0.8s forwards';
+        noBtn.style.animation = 'showButton 0.8s forwards';
+    }, 1380);
+    
+    // Button interactions
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    var noClickCount = 0;
+    
+    yesBtn.addEventListener('click', function() {
+        showLoveLetterModal();
+    });
+    
+    noBtn.addEventListener('click', function() {
+        noClickCount++;
+        
+        // Fixed corner positions - away from YES button (which is at 20%, 60%)
+        var cornerPositions = [
+            { x: 75, y: 20 },  // Click 1: Top-right corner
+            { x: 25, y: 25 },  // Click 2: Top-left corner
+            { x: 75, y: 75 },  // Click 3: Bottom-right corner
+            { x: 20, y: 75 },  // Click 4: Bottom-left corner (with shrink)
+            { x: 80, y: 25 },  // Click 5: Top-right area
+            { x: 75, y: 70 },  // Click 6: Bottom-right area
+            { x: 25, y: 25 }   // Click 7: Top-left area
+        ];
+        
+        if (noClickCount <= 2) {
+            noBtn.textContent = "Don't click me!"
+            // Move to fixed corner positions
+            var pos = cornerPositions[noClickCount - 1];
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+            noBtn.style.right = 'auto';
+        } else if (noClickCount === 3) {
+            noBtn.textContent = 'Really ??';
+            var pos = cornerPositions[noClickCount - 1];
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+            noBtn.style.right = 'auto';
+        } else if (noClickCount === 4) {
+            noBtn.textContent = 'Are you sure ?';
+            var pos = cornerPositions[noClickCount - 1];
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+        } else if (noClickCount === 5) {
+            noBtn.textContent = 'Please think again !';
+            var pos = cornerPositions[noClickCount - 1];
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+        } else if (noClickCount === 6) {
+            noBtn.textContent = 'No pleaseeee 🥺';
+            var pos = cornerPositions[noClickCount - 1];
+            noBtn.style.left = pos.x + '%';
+            noBtn.style.top = pos.y + '%';
+        } else if (noClickCount >= 7) {
+            noBtn.textContent = 'Hahaha you have no choice but to say Yes ❤️';
+            noBtn.style.fontSize = '2.5rem';
+            noBtn.style.cursor = 'default';
+            // Center it in the heart
+            noBtn.style.left = '50%';
+            noBtn.style.top = '50%';
+            noBtn.style.transform = 'translate(-50%, -50%)';
+            // Make it act like yes button
+            noBtn.removeEventListener('click', arguments.callee);
+            noBtn.addEventListener('click', function() {
+                showLoveLetterModal();
+            });
+        }
+    });
+    
+    // Initialize heart animation
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
     var width = canvas.width = koef * innerWidth;
     var height = canvas.height = koef * innerHeight;
+    var height = canvas.height = koef * innerHeight;
     var rand = Math.random;
-    ctx.fillStyle = "rgba(0,0,0,1)";
-    ctx.fillRect(0, 0, width, height);
 
     var heartPosition = function (rad) {
         //return [Math.sin(rad), Math.cos(rad)];
@@ -43,8 +404,6 @@ var init = function () {
     window.addEventListener('resize', function () {
         width = canvas.width = koef * innerWidth;
         height = canvas.height = koef * innerHeight;
-        ctx.fillStyle = "rgba(0,0,0,1)";
-        ctx.fillRect(0, 0, width, height);
     });
 
     var traceCount = mobile ? 20 : 50;
@@ -77,7 +436,7 @@ var init = function () {
             q: ~~(rand() * heartPointsCount),
             D: 2 * (i % 2) - 1,
             force: 0.2 * rand() + 0.7,
-            f: "hsla(0," + ~~(40 * rand() + 60) + "%," + ~~(60 * rand() + 20) + "%,.3)",
+            f: "hsla(330," + ~~(20 * rand() + 80) + "%," + ~~(15 * rand() + 80) + "%,.6)",
             trace: []
         };
         for (var k = 0; k < traceCount; k++) e[i].trace[k] = {x: x, y: y};
@@ -93,8 +452,7 @@ var init = function () {
         var n = -Math.cos(time);
         pulse((1 + n) * .5, (1 + n) * .5);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
-        ctx.fillStyle = "rgba(0,0,0,.1)";
-        ctx.fillRect(0, 0, width, height);
+        ctx.clearRect(0, 0, width, height);
         for (i = e.length; i--;) {
             var u = e[i];
             var q = targetPoints[u.q];
@@ -133,14 +491,207 @@ var init = function () {
                 ctx.fillRect(u.trace[k].x, u.trace[k].y, 1, 1);
             }
         }
-        //ctx.fillStyle = "rgba(255,255,255,1)";
-        //for (i = u.trace.length; i--;) ctx.fillRect(targetPoints[i][0], targetPoints[i][1], 2, 2);
 
         window.requestAnimationFrame(loop, canvas);
     };
     loop();
-};
+}
 
-var s = document.readyState;
-if (s === 'complete' || s === 'loaded' || s === 'interactive') init();
-else document.addEventListener('DOMContentLoaded', init, false);
+// Love Letter Modal Functions
+function showLoveLetterModal() {
+    var modal = document.getElementById('loveLetterModal');
+    modal.classList.add('show');
+    
+    // Hide valentine text and buttons
+    var valentineText = document.querySelector('.valentine-text');
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    
+    if (valentineText) valentineText.style.display = 'none';
+    if (yesBtn) yesBtn.style.display = 'none';
+    if (noBtn) noBtn.style.display = 'none';
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoveLetterModal() {
+    var modal = document.getElementById('loveLetterModal');
+    modal.classList.remove('show');
+    
+    // Show valentine text and buttons again
+    var valentineText = document.querySelector('.valentine-text');
+    var yesBtn = document.getElementById('yesBtn');
+    var noBtn = document.getElementById('noBtn');
+    
+    if (valentineText) valentineText.style.display = 'block';
+    if (yesBtn) yesBtn.style.display = 'block';
+    if (noBtn) noBtn.style.display = 'block';
+    
+    // Restore body scroll
+    document.body.style.overflow = 'hidden'; // Keep hidden since we're in fixed layout
+}
+
+// Spawn flying hearts from decorative hearts
+function spawnFlyingHearts(event, emoji) {
+    // Get the click position
+    var rect = event.target.getBoundingClientRect();
+    var startX = rect.left + rect.width / 2;
+    var startY = rect.top + rect.height / 2;
+    
+    // Spawn 8-12 hearts
+    var heartCount = 8 + Math.floor(Math.random() * 5);
+    
+    for (var i = 0; i < heartCount; i++) {
+        var flyingHeart = document.createElement('div');
+        flyingHeart.className = 'flying-emoji-heart';
+        flyingHeart.textContent = emoji;
+        
+        // Random horizontal spread
+        var spreadX = (Math.random() - 0.5) * 200;
+        flyingHeart.style.left = startX + 'px';
+        flyingHeart.style.top = startY + 'px';
+        flyingHeart.style.setProperty('--spread-x', spreadX + 'px');
+        
+        // Slight delay for each heart
+        flyingHeart.style.animationDelay = (i * 0.05) + 's';
+        
+        document.body.appendChild(flyingHeart);
+        
+        // Remove after animation completes
+        setTimeout(function(heart) {
+            heart.remove();
+        }, 2000, flyingHeart);
+    }
+}
+
+// Modal close button event listener
+document.addEventListener('DOMContentLoaded', function() {
+    var modalClose = document.getElementById('modalClose');
+    var modal = document.getElementById('loveLetterModal');
+    
+    if (modalClose) {
+        modalClose.addEventListener('click', closeLoveLetterModal);
+    }
+    
+    // Close modal when clicking outside the modal content
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeLoveLetterModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLoveLetterModal();
+        }
+    });
+    
+    // Add click handlers to decorative hearts
+    var decorativeHearts = document.querySelectorAll('.decorative-hearts span');
+    decorativeHearts.forEach(function(heart) {
+        heart.addEventListener('click', function(e) {
+            spawnFlyingHearts(e, heart.textContent);
+        });
+    });
+    
+    // Keyboard shortcuts for page switching
+    document.addEventListener('keydown', function(e) {
+        // Switch pages with number keys (only if not typing in an input)
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            if (e.key === '1') {
+                switchToPage('intro');
+            } else if (e.key === '2') {
+                switchToPage('game');
+            } else if (e.key === '3') {
+                switchToPage('valentine');
+            } else if (e.key === '4') {
+                // Stop game and hide falling hearts
+                gameActive = false;
+                if (gameInterval) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                }
+                var fallingHearts = document.querySelectorAll('.falling-heart');
+                fallingHearts.forEach(function(heart) {
+                    heart.remove();
+                });
+                
+                // Hide all foreground content except valentine (for heart animation)
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('game-container').style.display = 'none';
+                document.getElementById('valentine-content').style.display = 'block';
+                
+                // Initialize valentine content if not already done
+                if (!valentineInitialized) {
+                    showValentine();
+                }
+                
+                showLoveLetterModal();
+            }
+            e.preventDefault();
+
+        }
+    });
+});
+
+function switchToPage(page) {
+    var introScreen = document.getElementById('intro-screen');
+    var gameContainer = document.getElementById('game-container');
+    var valentineContent = document.getElementById('valentine-content');
+    
+    // Close modal if it's open
+    closeLoveLetterModal();
+    
+    // Stop any ongoing game
+    gameActive = false;
+    
+    // Clear the game interval
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+    
+    // Remove all falling hearts
+    var hearts = document.querySelectorAll('.falling-heart');
+    hearts.forEach(function(heart) {
+        heart.remove();
+    });
+    
+    // Hide all pages
+    introScreen.style.display = 'none';
+    gameContainer.style.display = 'none';
+    valentineContent.style.display = 'none';
+    
+    // Show the selected page
+    switch(page) {
+        case 'intro':
+            introScreen.style.display = 'flex';
+            cursorEffectEnabled = true;
+            break;
+            
+        case 'game':
+            gameContainer.style.display = 'flex';
+            cursorEffectEnabled = false;
+            gameActive = true;
+            // Reset game state
+            score = 0;
+            var progressHearts = document.querySelectorAll('.progress-heart');
+            progressHearts.forEach(function(heart) {
+                heart.classList.remove('filled');
+                heart.textContent = '♡';
+            });
+            // Start the game
+            startGame();
+            break;
+            
+        case 'valentine':
+            cursorEffectEnabled = true;
+            showValentine();
+            break;
+    }
+}
+
