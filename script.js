@@ -91,7 +91,7 @@ function startGame() {
     }
     
     gameInterval = setInterval(function() {
-        // Spawn 4-6 hearts at once
+        // Spawn 3-4 hearts at once (reduced to 70%)
         var heartCount = 4 + Math.floor(Math.random() * 3);
         for (var i = 0; i < heartCount; i++) {
             // Slight delay between each heart in the batch
@@ -238,6 +238,9 @@ function initializeCursorEffect() {
     
     // Cursor particle effect
     var lastTime = Date.now();
+    var particlePool = []; // Track active particles
+    var maxParticles = 75; // Limit total particles (1.5x increase from 50)
+    
     document.addEventListener('mousemove', function(e) {
         // Only show cursor effect when enabled
         if (!cursorEffectEnabled) {
@@ -252,12 +255,17 @@ function initializeCursorEffect() {
         cursor.style.top = e.clientY + 'px';
         
         var currentTime = Date.now();
-        if (currentTime - lastTime < 30) return; // Throttle particle creation
+        if (currentTime - lastTime < 120) return; // Slightly reduced throttle for more particles
         lastTime = currentTime;
         
-        // Create 3-5 particles per mouse move
-        var particleCount = 3 + Math.floor(Math.random() * 3);
+        // Don't create particles if we've hit the limit
+        if (particlePool.length >= maxParticles) return;
+        
+        // Create 1-2 particles per mouse move (1.5x average increase)
+        var particleCount = Math.random() < 0.5 ? 2 : 3;
         for (var i = 0; i < particleCount; i++) {
+            if (particlePool.length >= maxParticles) break;
+            
             var particle = document.createElement('div');
             particle.className = 'cursor-particle';
             particle.textContent = '❤';
@@ -278,10 +286,19 @@ function initializeCursorEffect() {
             particle.style.setProperty('--ty', ty + 'px');
             
             document.body.appendChild(particle);
+            particlePool.push(particle);
             
-            setTimeout(function() {
-                particle.remove();
-            }, 1500);
+            (function(p) {
+                setTimeout(function() {
+                    if (p && p.parentNode) {
+                        p.remove();
+                        var index = particlePool.indexOf(p);
+                        if (index > -1) {
+                            particlePool.splice(index, 1);
+                        }
+                    }
+                }, 1000);
+            })(particle);
         }
     });
 }
@@ -406,7 +423,7 @@ function showValentine() {
         height = canvas.height = koef * innerHeight;
     });
 
-    var traceCount = mobile ? 20 : 50;
+    var traceCount = mobile ? 14 : 35; // Reduced for performance
     var pointsOrigin = [];
     var i;
     var dr = mobile ? 0.3 : 0.1;
@@ -539,8 +556,8 @@ function spawnFlyingHearts(event, emoji) {
     var startX = rect.left + rect.width / 2;
     var startY = rect.top + rect.height / 2;
     
-    // Spawn 8-12 hearts
-    var heartCount = 8 + Math.floor(Math.random() * 5);
+    // Spawn 5-8 hearts (reduced for performance)
+    var heartCount = 5 + Math.floor(Math.random() * 4);
     
     for (var i = 0; i < heartCount; i++) {
         var flyingHeart = document.createElement('div');
