@@ -1181,7 +1181,7 @@ canvas {
   background: linear-gradient(135deg, rgba(20, 20, 40, 0.4), rgba(40, 20, 60, 0.35));
   border: 2px solid rgba(255, 192, 232, 0.6);
   border-radius: 20px;
-  padding: 40px 40px 0 40px;
+  padding: 30px 38px 0 40px;
   max-width: none;
   width: 60%;
   max-height: 85vh;
@@ -1206,32 +1206,6 @@ canvas {
   }
 }
 
-.modal-close {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  font-size: 3rem;
-  color: #ffc0e8;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  text-shadow: 0 0 10px rgba(255, 192, 232, 0.6);
-}
-
-.modal-close:hover {
-  color: #ff69b4;
-  transform: rotate(90deg) scale(1.2);
-  text-shadow: 0 0 20px rgba(255, 192, 232, 1),
-               0 0 40px rgba(255, 105, 180, 0.8);
-}
 
 .letter-container {
   color: #ffffff;
@@ -1277,6 +1251,7 @@ canvas {
   margin: 0 0 10px 0;
   text-shadow: 0 0 20px rgba(255, 192, 232, 0.8),
                0 0 40px rgba(255, 192, 232, 0.4);
+  padding-top: 10px
 }
 
 .letter-date {
@@ -1334,23 +1309,21 @@ canvas {
 }
 
 .letter-greeting {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 2rem;
   color: #ffc0e8;
   text-shadow: 0 0 10px rgba(255, 192, 232, 0.5);
   margin-bottom: 10px !important;
-  font-family: "Dancing Script", cursive;
+  font-family: "Great Vibes", cursive;
 }
 
 .letter-closing {
   margin-top: 10px !important;
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 2rem;
   text-align: right !important;
   color: #ffc0e8;
   font-style: italic;
   text-shadow: 0 0 10px rgba(255, 192, 232, 0.5);
-  font-family: "Dancing Script", cursive;
+  font-family: "Great Vibes", cursive;
 }
 
 .letter-footer {
