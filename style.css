@@ -45,7 +45,7 @@ body {
   font-size: 2rem;
   font-family: Arial, Helvetica, sans-serif;
   color: #ffffff;
-  margin-bottom: 100px;
+  margin-bottom: 70px;
   text-shadow: 0 0 15px rgba(255, 192, 232, 0.6),
                0 0 25px rgba(255, 192, 232, 0.4);
   text-align: center;
@@ -1181,11 +1181,13 @@ canvas {
   background: linear-gradient(135deg, rgba(20, 20, 40, 0.4), rgba(40, 20, 60, 0.35));
   border: 2px solid rgba(255, 192, 232, 0.6);
   border-radius: 20px;
-  padding: 40px 40px 30px 40px;
+  padding: 30px 38px 0 40px;
   max-width: none;
   width: 60%;
   max-height: 85vh;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 50px rgba(255, 192, 232, 0.5),
               0 0 100px rgba(255, 105, 180, 0.3),
               inset 0 0 30px rgba(255, 192, 232, 0.1);
@@ -1204,42 +1206,21 @@ canvas {
   }
 }
 
-.modal-close {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  font-size: 3rem;
-  color: #ffc0e8;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  text-shadow: 0 0 10px rgba(255, 192, 232, 0.6);
-}
-
-.modal-close:hover {
-  color: #ff69b4;
-  transform: rotate(90deg) scale(1.2);
-  text-shadow: 0 0 20px rgba(255, 192, 232, 1),
-               0 0 40px rgba(255, 105, 180, 0.8);
-}
 
 .letter-container {
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
 }
 
 .letter-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   padding-bottom: 20px;
   border-bottom: 2px solid rgba(255, 192, 232, 0.3);
+  flex-shrink: 0;
 }
 
 .letter-heart {
@@ -1270,11 +1251,12 @@ canvas {
   margin: 0 0 10px 0;
   text-shadow: 0 0 20px rgba(255, 192, 232, 0.8),
                0 0 40px rgba(255, 192, 232, 0.4);
+  padding-top: 10px
 }
 
 .letter-date {
   font-family: Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: rgba(255, 192, 232, 0.8);
   font-style: italic;
 }
@@ -1283,6 +1265,40 @@ canvas {
   line-height: 1.8;
   font-size: 1.1rem;
   font-family: Arial, sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  padding-right: 10px;
+}
+
+/* Custom scrollbar for letter body */
+.letter-body::-webkit-scrollbar {
+  width: 12px;
+}
+
+.letter-body::-webkit-scrollbar-track {
+  background: rgba(20, 20, 40, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 192, 232, 0.2);
+}
+
+.letter-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 192, 232, 0.6), rgba(255, 105, 180, 0.6));
+  border-radius: 10px;
+  border: 2px solid rgba(20, 20, 40, 0.5);
+  box-shadow: 0 0 10px rgba(255, 192, 232, 0.5);
+}
+
+.letter-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 192, 232, 0.9), rgba(255, 105, 180, 0.9));
+  box-shadow: 0 0 20px rgba(255, 192, 232, 0.8),
+              0 0 30px rgba(255, 105, 180, 0.6);
+}
+
+/* Firefox scrollbar */
+.letter-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 192, 232, 0.6) rgba(20, 20, 40, 0.5);
 }
 
 .letter-body p {
@@ -1293,31 +1309,31 @@ canvas {
 }
 
 .letter-greeting {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 2rem;
   color: #ffc0e8;
   text-shadow: 0 0 10px rgba(255, 192, 232, 0.5);
-  margin-bottom: 25px !important;
-  font-family: "Dancing Script", cursive;
+  margin-bottom: 10px !important;
+  font-family: "Great Vibes", cursive;
 }
 
 .letter-closing {
-  margin-top: 30px !important;
-  font-size: 1.8rem;
-  font-weight: 700;
+  margin-top: 10px !important;
+  font-size: 2rem;
   text-align: right !important;
   color: #ffc0e8;
   font-style: italic;
   text-shadow: 0 0 10px rgba(255, 192, 232, 0.5);
-  font-family: "Dancing Script", cursive;
+  font-family: "Great Vibes", cursive;
 }
 
 .letter-footer {
-  margin-top: 30px;
+  margin-top: 20px;
   padding-top: 20px;
+  padding-bottom: 30px;
   border-top: 2px solid rgba(255, 192, 232, 0.3);
   text-align: center;
   font-family: Arial, sans-serif;
+  flex-shrink: 0;
 }
 
 .decorative-hearts {
