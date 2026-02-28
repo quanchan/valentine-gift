@@ -212,7 +212,6 @@ body {
   background-repeat: repeat;
   background-size: 200px 200px;
   animation: moveStars 120s linear infinite;
-  will-change: transform;
 }
 
 .stars2 {
@@ -222,7 +221,6 @@ body {
   background-repeat: repeat;
   background-size: 250px 250px;
   animation: moveStars2 100s linear infinite;
-  will-change: transform;
 }
 
 .stars3 {
@@ -232,33 +230,30 @@ body {
   background-repeat: repeat;
   background-size: 300px 300px;
   animation: moveStars3 150s linear infinite;
-  will-change: transform;
 }
 
 .nebula {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: -25%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
   background: radial-gradient(circle at 25% 35%, rgba(0, 0, 128, 0.4) 0%, transparent 15%),
               radial-gradient(circle at 35% 75%, rgba(64, 224, 208, 0.36) 0%, transparent 18%);
   animation: nebulaDrift 60s ease-in-out infinite alternate;
-  filter: blur(35px);
-  will-change: transform;
+  filter: blur(20px);
 }
 
 .nebula2 {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: -25%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
   background: radial-gradient(circle at 70% 40%, rgba(255, 105, 180, 0.35) 0%, transparent 14%),
               radial-gradient(circle at 85% 65%, rgba(138, 43, 226, 0.3) 0%, transparent 11%);
   animation: nebulaDrift2 80s ease-in-out infinite alternate-reverse;
-  filter: blur(40px);
-  will-change: transform;
+  filter: blur(25px);
 }
 
 .nebula3 {
@@ -318,36 +313,34 @@ body {
 /* Cosmic Swirls - Chaotic flowing patterns */
 .cosmic-swirl-1 {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: -25%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
   background: 
     radial-gradient(ellipse 800px 400px at 30% 20%, rgba(255, 0, 150, 0.4) 0%, transparent 40%),
     radial-gradient(ellipse 600px 300px at 35% 25%, rgba(138, 43, 226, 0.35) 0%, transparent 35%),
     radial-gradient(ellipse 700px 350px at 28% 18%, rgba(0, 150, 255, 0.3) 0%, transparent 38%);
   animation: cosmicSwirl1 100s linear infinite;
-  filter: blur(50px);
+  filter: blur(30px);
   mix-blend-mode: screen;
   opacity: 0.7;
-  will-change: transform;
 }
 
 .cosmic-swirl-2 {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: -25%;
+  left: -25%;
+  width: 150%;
+  height: 150%;
   background: 
     radial-gradient(ellipse 900px 450px at 75% 70%, rgba(255, 100, 200, 0.38) 0%, transparent 45%),
     radial-gradient(ellipse 700px 350px at 80% 75%, rgba(255, 140, 0, 0.35) 0%, transparent 40%),
     radial-gradient(ellipse 650px 325px at 72% 68%, rgba(186, 85, 211, 0.32) 0%, transparent 38%);
   animation: cosmicSwirl2 120s linear infinite reverse;
-  filter: blur(55px);
+  filter: blur(30px);
   mix-blend-mode: screen;
   opacity: 0.65;
-  will-change: transform;
 }
 
 .cosmic-swirl-3 {
@@ -399,19 +392,7 @@ body {
 }
 
 .cosmic-flow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: 
-    radial-gradient(ellipse 1000px 300px at 20% 45%, rgba(255, 0, 255, 0.25) 0%, transparent 50%),
-    radial-gradient(ellipse 900px 250px at 80% 55%, rgba(0, 255, 255, 0.22) 0%, transparent 48%);
-  animation: cosmicFlow 160s linear infinite;
-  filter: blur(60px);
-  mix-blend-mode: screen;
-  opacity: 0.5;
-  will-change: transform;
+  display: none;
 }
 
 
@@ -422,17 +403,10 @@ body {
   background: white;
   border-radius: 50%;
   box-shadow: 
-    /* Central glow */
-    0 0 12px 3px rgba(255, 255, 255, 1),
-    0 0 8px 2px rgba(255, 255, 255, 0.9),
-    /* Simplified beams */
-    0 -25px 12px 0px rgba(255, 255, 255, 0.5),
-    0 25px 12px 0px rgba(255, 255, 255, 0.5),
-    25px 0 12px 0px rgba(255, 255, 255, 0.5),
-    -25px 0 12px 0px rgba(255, 255, 255, 0.5);
+    0 0 8px 2px rgba(255, 255, 255, 1),
+    0 0 4px 1px rgba(255, 255, 255, 0.9);
   animation: shootingStar 8s linear infinite;
   opacity: 0;
-  will-change: opacity, top, right;
 }
 
 .bright-star {
@@ -443,15 +417,12 @@ body {
   border-radius: 50%;
   --size: var(--star-size, 1);
   box-shadow: 
-    /* Central glow */
     0 0 calc(8px * var(--size)) calc(2px * var(--size)) rgba(255, 255, 255, 1),
-    /* Simplified beams */
-    0 calc(-18px * var(--size)) calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    0 calc(18px * var(--size)) calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    calc(18px * var(--size)) 0 calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7),
-    calc(-18px * var(--size)) 0 calc(10px * var(--size)) calc(0px * var(--size)) rgba(255, 255, 255, 0.7);
+    0 calc(-12px * var(--size)) calc(6px * var(--size)) 0 rgba(255, 255, 255, 0.6),
+    0 calc(12px * var(--size)) calc(6px * var(--size)) 0 rgba(255, 255, 255, 0.6),
+    calc(12px * var(--size)) 0 calc(6px * var(--size)) 0 rgba(255, 255, 255, 0.6),
+    calc(-12px * var(--size)) 0 calc(6px * var(--size)) 0 rgba(255, 255, 255, 0.6);
   animation: brightShine 3s ease-in-out infinite;
-  will-change: opacity, transform;
 }
 
 @keyframes brightShine {
@@ -854,7 +825,6 @@ canvas {
   height: 100%;
   background-color: transparent;
   cursor: none;
-  will-change: contents;
 }
 
 .custom-cursor {
@@ -865,9 +835,8 @@ canvas {
   font-size: 20px;
   color: #ffc0e8;
   opacity: 0.7;
-  filter: drop-shadow(0 0 15px rgba(255, 192, 232, 1));
+  filter: drop-shadow(0 0 10px rgba(255, 192, 232, 0.8));
   animation: heartbeat 1.2s ease-in-out infinite;
-  will-change: transform;
 }
 
 .cursor-particle {
@@ -877,7 +846,6 @@ canvas {
   animation: particleFloat 1s ease-out forwards;
   font-size: 15px;
   color: #ffc0e8;
-  will-change: transform, opacity;
 }
 
 @keyframes particleFloat {

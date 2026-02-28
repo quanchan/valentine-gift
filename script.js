@@ -1,27 +1,9 @@
-window.requestAnimationFrame =
-    window.__requestAnimationFrame ||
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        (function () {
-            return function (callback, element) {
-                var lastTime = element.__lastTime;
-                if (lastTime === undefined) {
-                    lastTime = 0;
-                }
-                var currTime = Date.now();
-                var timeToCall = Math.max(1, 33 - (currTime - lastTime));
-                window.setTimeout(callback, timeToCall);
-                element.__lastTime = currTime + timeToCall;
-            };
-        })();
 window.isDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(((navigator.userAgent || navigator.vendor || window.opera)).toLowerCase()));
 
 var mobile = window.isDevice;
 var koef = mobile ? 0.5 : 1;
 var valentineInitialized = false;
+var valentineAnimationId = null; // Track canvas animation frame
 
 // Game variables
 var gameActive = false; // Start as false (intro screen)
@@ -31,6 +13,8 @@ var gameArea;
 var basketX = 50; // percentage
 var cursorEffectEnabled = true; // Control cursor particle effect
 var gameInterval = null; // Store interval ID
+var fallingHearts = []; // Centralized heart tracking
+var gameAnimationId = null; // Single animation frame for all hearts
 
 // Initialize game
 window.addEventListener('DOMContentLoaded', function() {
@@ -90,89 +74,95 @@ function startGame() {
         clearInterval(gameInterval);
     }
     
+    fallingHearts = [];
+    
     gameInterval = setInterval(function() {
-        // Spawn 3-4 hearts at once (reduced to 70%)
+        // Spawn 4-6 hearts at once
         var heartCount = 4 + Math.floor(Math.random() * 3);
         for (var i = 0; i < heartCount; i++) {
-            // Slight delay between each heart in the batch
-            setTimeout(createFallingHeart, i * 100);
+            spawnFallingHeartData(i * 100);
         }
-    }, 1000); // Reduced from 1000ms to 500ms
+    }, 1000);
+    
+    // Start single animation loop for all falling hearts
+    if (gameAnimationId) cancelAnimationFrame(gameAnimationId);
+    gameAnimationLoop();
 }
 
-function createFallingHeart() {
-    if (!gameActive) return;
-    
-    var heart = document.createElement('div');
-    heart.className = 'falling-heart';
-    
-    // 70% chance of broken heart
-    var isBroken = Math.random() < 0.75;
-    if (isBroken) {
-        heart.classList.add('broken');
-        heart.textContent = '💔';
-        heart.dataset.broken = 'true';
-    } else {
-        heart.textContent = '❤';
-        heart.dataset.broken = 'false';
+function spawnFallingHeartData(delay) {
+    setTimeout(function() {
+        if (!gameActive) return;
+        
+        var heart = document.createElement('div');
+        heart.className = 'falling-heart';
+        
+        var isBroken = Math.random() < 0.75;
+        if (isBroken) {
+            heart.classList.add('broken');
+            heart.textContent = '💔';
+            heart.dataset.broken = 'true';
+        } else {
+            heart.textContent = '❤';
+            heart.dataset.broken = 'false';
+        }
+        
+        var size = 1.5 + Math.random() * 2;
+        heart.style.fontSize = size + 'rem';
+        heart.style.left = Math.random() * 95 + '%';
+        heart.style.top = '-50px';
+        
+        var duration = 0.8 + Math.random() * 0.9;
+        
+        document.body.appendChild(heart);
+        
+        fallingHearts.push({
+            el: heart,
+            startTime: Date.now(),
+            duration: duration
+        });
+    }, delay);
+}
+
+function gameAnimationLoop() {
+    if (!gameActive) {
+        gameAnimationId = null;
+        return;
     }
     
-    // Random size (1.5rem to 3.5rem)
-    var size = 1.5 + Math.random() * 2;
-    heart.style.fontSize = size + 'rem';
+    var now = Date.now();
+    var basketRect = basket.getBoundingClientRect(); // Read once per frame
     
-    // Random horizontal position across full screen width
-    heart.style.left = Math.random() * 95 + '%';
-    heart.style.top = '-50px';
-    
-    // Random fall speed (0.5s to 1.5s)
-    var duration = 0.8 + Math.random() * 0.9;
-    
-    // Append to body instead of gameArea to span full width
-    document.body.appendChild(heart);
-    
-    var startTime = Date.now();
-    var fallInterval = setInterval(function() {
-        if (!gameActive) {
-            clearInterval(fallInterval);
-            heart.remove();
-            return;
-        }
-        
-        var elapsed = (Date.now() - startTime) / 1000;
-        var progress = elapsed / duration;
+    for (var i = fallingHearts.length - 1; i >= 0; i--) {
+        var h = fallingHearts[i];
+        var elapsed = (now - h.startTime) / 1000;
+        var progress = elapsed / h.duration;
         
         if (progress >= 1) {
-            clearInterval(fallInterval);
-            heart.remove();
-            return;
+            h.el.remove();
+            fallingHearts.splice(i, 1);
+            continue;
         }
         
-        // Fall across full screen height
         var newTop = progress * (window.innerHeight + 50);
-        heart.style.top = newTop + 'px';
+        h.el.style.top = newTop + 'px';
         
-        // Check collision
-        if (checkCollision(heart, basket)) {
-            clearInterval(fallInterval);
-            heart.remove();
-            if (heart.dataset.broken === 'true') {
+        // Collision check using cached basketRect
+        var heartRect = h.el.getBoundingClientRect();
+        if (!(heartRect.right < basketRect.left || 
+              heartRect.left > basketRect.right || 
+              heartRect.bottom < basketRect.top || 
+              heartRect.top > basketRect.bottom)) {
+            h.el.remove();
+            if (h.el.dataset.broken === 'true') {
                 decrementScore();
             } else {
                 incrementScore();
             }
+            fallingHearts.splice(i, 1);
         }
-    }, 16);
-}
-
-function checkCollision(heart, basket) {
-    var heartRect = heart.getBoundingClientRect();
-    var basketRect = basket.getBoundingClientRect();
+    }
     
-    return !(heartRect.right < basketRect.left || 
-             heartRect.left > basketRect.right || 
-             heartRect.bottom < basketRect.top || 
-             heartRect.top > basketRect.bottom);
+    gameAnimationId = requestAnimationFrame(gameAnimationLoop);
 }
 
 function incrementScore() {
@@ -212,7 +202,19 @@ function endGame() {
         gameInterval = null;
     }
     
-    // Remove all remaining hearts (both regular and broken)
+    // Cancel the game animation loop
+    if (gameAnimationId) {
+        cancelAnimationFrame(gameAnimationId);
+        gameAnimationId = null;
+    }
+    
+    // Remove all tracked falling hearts
+    for (var i = 0; i < fallingHearts.length; i++) {
+        fallingHearts[i].el.remove();
+    }
+    fallingHearts = [];
+    
+    // Remove any stray falling heart elements
     var hearts = document.querySelectorAll('.falling-heart');
     hearts.forEach(function(heart) {
         heart.remove();
@@ -459,6 +461,13 @@ function showValentine() {
 
     var time = 0;
     var loop = function () {
+        // Stop the loop if valentine content is hidden
+        var vc = document.getElementById('valentine-content');
+        if (!vc || vc.style.display === 'none') {
+            valentineAnimationId = null;
+            return;
+        }
+        
         var n = -Math.cos(time);
         pulse((1 + n) * .5, (1 + n) * .5);
         time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
@@ -502,9 +511,9 @@ function showValentine() {
             }
         }
 
-        window.requestAnimationFrame(loop, canvas);
+        valentineAnimationId = requestAnimationFrame(loop);
     };
-    loop();
+    valentineAnimationId = requestAnimationFrame(loop);
 }
 
 // Love Letter Modal Functions
@@ -625,8 +634,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     clearInterval(gameInterval);
                     gameInterval = null;
                 }
-                var fallingHearts = document.querySelectorAll('.falling-heart');
-                fallingHearts.forEach(function(heart) {
+                if (gameAnimationId) {
+                    cancelAnimationFrame(gameAnimationId);
+                    gameAnimationId = null;
+                }
+                for (var j = 0; j < fallingHearts.length; j++) {
+                    fallingHearts[j].el.remove();
+                }
+                fallingHearts = [];
+                var strayHearts = document.querySelectorAll('.falling-heart');
+                strayHearts.forEach(function(heart) {
                     heart.remove();
                 });
                 
@@ -665,7 +682,19 @@ function switchToPage(page) {
         gameInterval = null;
     }
     
-    // Remove all falling hearts
+    // Cancel the game animation loop
+    if (gameAnimationId) {
+        cancelAnimationFrame(gameAnimationId);
+        gameAnimationId = null;
+    }
+    
+    // Remove all tracked falling hearts
+    for (var j = 0; j < fallingHearts.length; j++) {
+        fallingHearts[j].el.remove();
+    }
+    fallingHearts = [];
+    
+    // Remove any stray falling heart elements
     var hearts = document.querySelectorAll('.falling-heart');
     hearts.forEach(function(heart) {
         heart.remove();
